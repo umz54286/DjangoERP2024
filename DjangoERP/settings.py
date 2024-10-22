@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.postgres",
 ]
 
 MIDDLEWARE = [
@@ -74,9 +75,16 @@ WSGI_APPLICATION = "DjangoERP.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgre_erp',  # 替換為你的資料庫名稱
+        'USER': 'postgre_erp_user',  # 替換為你的資料庫使用者
+        'PASSWORD': 'yB5QnUvSAPdrwca7I6INgqRGs1ggr41D',  # 替換為你的資料庫密碼
+        'HOST': 'dpg-cs90lu8gph6c73buhmv0-a.singapore-postgres.render.com',  # 通常是 'localhost'，若是在遠端伺服器則為伺服器的主機名稱或 IP
+        'PORT': '5432',  # PostgreSQL 的標準埠號
+        # 'OPTIONS': {
+        #     'sslmode': 'require',  # 要求 SSL 連線，但不驗證證書
+        # },
     }
 }
 
