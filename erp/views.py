@@ -10,4 +10,8 @@ def product(request):
     title = 'ERP SYS - 產品管理'
     content_title = '產品管理'
     content = ''
-    return render(request, 'layout.html', locals())
+    try:
+        return render(request, 'layout.html', locals())
+    except:
+        return render(request, 'layout.html')
+    

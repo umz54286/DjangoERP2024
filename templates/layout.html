@@ -48,7 +48,7 @@
         <!-- Sidebar - Brand -->
         <a
           class="sidebar-brand d-flex align-items-center justify-content-center"
-          href=""
+          href="/"
         >
           <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-globe-asia brand-icon-color"></i>
@@ -82,7 +82,7 @@
           </a>
           <div
             id="collapseBuy"
-            class="collapse show"
+            class="collapse"
             aria-labelledby="headingBuy"
             data-parent="#accordionSidebar"
           >
@@ -104,11 +104,11 @@
             aria-controls="collapseSell"
           >
             <i class="fas fa-receipt"></i>
-            <span class="nav-item-font-color">銷貨模組</span>
+            <span class="nav-item-font-color">&nbsp;銷貨模組</span>
           </a>
           <div
             id="collapseSell"
-            class="collapse show"
+            class="collapse"
             aria-labelledby="headingSell"
             data-parent="#accordionSidebar"
           >
@@ -142,7 +142,7 @@
           </a>
           <div
             id="collapsePrint"
-            class="collapse show"
+            class="collapse"
             aria-labelledby="headingPrint"
             data-parent="#accordionSidebar"
           >
@@ -220,5 +220,7 @@
 
     <!-- Page level plugins -->
     <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
+
+    <script src="{% static 'js/erp.js' %}"></script>
   </body>
 </html>
