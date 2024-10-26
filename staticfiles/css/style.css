@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Microsoft JhengHei";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+.bg-sidebar {
+  background-color: #a6bfbb;
+  background-image: linear-gradient(180deg, #a6bfbb 10%, #7d9d97 100%);
+  background-size: cover;
+}
+
+.nav-item-font-color {
+  color: #e6f2f1;
+}
+
+.sidebar-dark .nav-item .nav-link i {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.brand-icon-color {
+  color: #617774;
+}
+
+.brand-text-color {
+  color: #e6f2f1;
+}
+
+.sidebar-toggle-button {
+  font-weight: 400;
+  color: #617774;
+  text-decoration: none;
+}
