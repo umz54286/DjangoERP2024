@@ -1,5 +1,7 @@
-if ($(window).width() > 768) {
-  $("#collapseBuy").attr("class", "collapse show");
-  $("#collapseSell").attr("class", "collapse show");
-  $("#collapsePrint").attr("class", "collapse show");
-}
+$(document).ready(function () {
+  if ($(window).width() > 768) {
+    $("#collapseBuy").attr("class", "collapse show");
+    $("#collapseSell").attr("class", "collapse show");
+    $("#collapsePrint").attr("class", "collapse show");
+  }
+});

@@ -11,8 +11,6 @@ class 客戶(models.Model):
     電話 = models.CharField(max_length=20)
     地址 = models.CharField(max_length=100)
     統一編號 = models.CharField(max_length=10)
-    信用額度 = models.IntegerField
-    備註 = models.TextField
 
 
 class 供應商(models.Model):
@@ -23,6 +21,5 @@ class 供應商(models.Model):
     電話 = models.CharField(max_length=20)
     地址 = models.CharField(max_length=100)
     統一編號 = models.CharField(max_length=10)
-    備註 = models.TextField
 
     # question = models.ForeignKey(Question, on_delete=models.CASCADE)

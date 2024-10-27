@@ -16,10 +16,13 @@ Including another URLconf
 """
 # from django.contrib import admin
 from django.urls import path
-from erp.views import dashboard, product
+from erp.views import dashboard, products, customers,insertCustomers,modifyCustomers
 
 
 urlpatterns = [
     path("", dashboard),
-    path("product", product),
+    path("products", products),
+    path("customers", customers),
+    path("customers/insert", insertCustomers),
+    path("customers/modify", modifyCustomers),
 ]

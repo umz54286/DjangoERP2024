@@ -1,0 +1,278 @@
+{% extends 'layout.html' %} {% block title%}
+<title>ERP SYSTEM - 客戶資料管理</title> {% endblock %} {% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">客戶資料管理</h1>
+  <!-- DataTales Example -->
+  <div class="card shadow mt-3 mb-4">
+    <div class="card-header py-3">
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#createDataModal"
+      >
+        新增
+      </button>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="createDataModal"
+        data-backdrop="static"
+        data-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="createDataModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="createDataModalLabel">
+                新增客戶資料
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/customers/insert" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputCustomerCode"
+                    >客戶編號</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IcustomerCode"
+                    id="IinputCustomerCode"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputCustomerName"
+                    >客戶名稱</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IcustomerName"
+                    id="IinputCustomerName"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputContactPerson"
+                    >聯絡人</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IcontactPerson"
+                    id="IinputContactPerson"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputPhone">電話</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Iphone"
+                    id="IinputPhone"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputAddress">地址</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Iaddress"
+                    id="IinputAddress"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputUnifiedNumber"
+                    >統一編號</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IunifiedNumber"
+                    id="IinputUnifiedNumber"
+                  />
+                </div>
+              
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                關閉
+              </button>
+              <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-bordered"
+          id="dataTable"
+          width="100%"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>客戶編號</th>
+              <th>客戶名稱</th>
+              <th>聯絡人</th>
+              <th>電話</th>
+              <th>地址</th>
+              <th>統一編號</th>
+              <th>動作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for customer in customers %}
+            <tr>
+              <td>{{customer.客戶編號}}</td>
+              <td>{{customer.客戶名稱}}</td>
+              <td>{{customer.聯絡人}}</td>
+              <td>{{customer.電話}}</td>
+              <td>{{customer.地址}}</td>
+              <td>{{customer.統一編號}}</td>
+              <td><button type="button" data-toggle="modal"
+        data-target="#modifyDataModal" style="border:0;background-color:#FFF"><i class="fas fa-pen"></i></button></td>
+              <!-- Modal -->
+      <div
+        class="modal fade"
+        id="modifyDataModal"
+        data-backdrop="static"
+        data-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="modifyDataModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modifyDataModalLabel">
+                修改客戶資料
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/customers/modify" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="col-form-label" for="MinputCustomerCode"
+                    >客戶編號</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="McustomerCode"
+                    id="MinputCustomerCode"
+                    value="{{customer.客戶編號}}"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="MinputCustomerName"
+                    >客戶名稱</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="McustomerName"
+                    id="MinputCustomerName"
+                    value="{{customer.客戶名稱}}"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="MinputContactPerson"
+                    >聯絡人</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="McontactPerson"
+                    id="MinputContactPerson"
+                    value="{{customer.聯絡人}}"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="MinputPhone">電話</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Mphone"
+                    id="MinputPhone"
+                    value="{{customer.電話}}"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="MinputAddress">地址</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Maddress"
+                    id="MinputAddress"
+                    value="{{customer.地址}}"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="MinputUnifiedNumber"
+                    >統一編號</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="MunifiedNumber"
+                    id="MinputUnifiedNumber"
+                    value="{{customer.統一編號}}"
+                    readonly
+                  />
+                </div>
+              
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                關閉
+              </button>
+              <button type="submit" class="btn btn-primary">修改</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Page Heading -->
+</div>
+<!-- /.container-fluid -->
+{% endblock %}
