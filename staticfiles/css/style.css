@@ -43,6 +43,5 @@ h6 {
 }
 
 .modal {
-  position: relative;
-  z-index: 2040 !important;
+  position: relative !important;
 }
