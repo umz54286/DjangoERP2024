@@ -1,0 +1,408 @@
+{% extends 'layout.html' %} {% block title%}
+<title>ERP SYSTEM - 採購資料管理</title> {% endblock %} {% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">採購資料管理</h1>
+  <!-- DataTales Example -->
+  <div class="card shadow mt-3 mb-4">
+    <div class="card-header py-3">
+      <button
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#createDataModal"
+      >
+        新增
+      </button>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="createDataModal"
+        data-backdrop="static"
+        data-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="createDataModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="createDataModalLabel">
+                新增採購資料
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="/purchaseOrders/insert" method="post">
+              <div class="modal-body">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputPurchaseOrderCode"
+                    >採購單號</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IpurchaseOrderCode"
+                    id="IinputPurchaseOrderCode"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputPurchaseOrderName"
+                    >客戶名稱</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IpurchaseOrderName"
+                    id="IinputPurchaseOrderName"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputContactPerson"
+                    >聯絡人</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IcontactPerson"
+                    id="IinputContactPerson"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputPhone">電話</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Iphone"
+                    id="IinputPhone"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputAddress">地址</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Iaddress"
+                    id="IinputAddress"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputUnifiedNumber"
+                    >統一編號</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IunifiedNumber"
+                    id="IinputUnifiedNumber"
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  關閉
+                </button>
+                <button type="submit" class="btn btn-primary">保存</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-bordered"
+          id="dataTable"
+          width="100%"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>採購單號</th>
+              <th>供應商名稱</th>
+              <th>採購日期</th>
+              <th>預計到貨日期</th>
+              <th>付款方式</th>
+              <th>備註</th>
+              <th>動作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for purchaseOrder in purchaseOrders %}
+            <tr>
+              <td>{{purchaseOrder.採購單號}}</td>
+              <td>{{purchaseOrder.供應商.供應商名稱}}</td>
+              <td>{{purchaseOrder.採購日期}}</td>
+              <td>{{purchaseOrder.預計到貨日期}}</td>
+              <td>{{purchaseOrder.付款方式}}</td>
+              <td>{{purchaseOrder.備註}}</td>
+              <td>
+                <button
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#detailDataModal{{purchaseOrder.採購單號}}"
+                  style="border: 0; background-color: #fff"
+                >
+                  <i class="fas fa-file"></i>
+                </button>
+                <button
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#modifyDataModal{{purchaseOrder.採購單號}}"
+                  style="border: 0; background-color: #fff"
+                >
+                  <i class="fas fa-pen"></i>
+                </button>
+              </td>
+            </tr>
+            <!-- detailDataModal -->
+            {% for purchaseProduct in purchaseProducts %}
+            <div
+              class="modal fade"
+              id="detailDataModal{{purchaseOrder.採購單號}}"
+              data-backdrop="static"
+              data-keyboard="false"
+              tabindex="-2"
+              aria-labelledby="detailDataModal{{purchaseOrder.採購單號}}Label"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5
+                      class="modal-title"
+                      id="detailDataModal{{purchaseProduct.採購主檔}}Label"
+                    >
+                      採購資料明細
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label class="col-form-label" for="DinputPurchaseProduct"
+                        >產品名稱</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DpurchaseProduct"
+                        id="DinputPurchaseProduct"
+                        value="{{purchaseProduct.產品.產品名稱}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label
+                        class="col-form-label"
+                        for="DinputPurchaseProductQuantity"
+                        >數量</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DpurchaseProductQuantity"
+                        id="DinputPurchaseProductQuantity"
+                        value="{{purchaseProduct.數量}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label
+                        class="col-form-label"
+                        for="DinputPurchaseProductUnitPrice"
+                        >單價</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DpurchaseProductUnitPrice"
+                        id="DinputPurchaseProductUnitPrice"
+                        value="{{purchaseProduct.單價}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label
+                        class="col-form-label"
+                        for="DinputPurchaseProductTotalPrice"
+                        >金額</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DpurchaseProductTotalPrice"
+                        id="DinputPurchaseProductTotalPrice"
+                        value="{{purchaseProduct.金額}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label
+                        class="col-form-label"
+                        for="DinputPurchaseProductRemarks"
+                        >備註</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DpurchaseProductRemarks"
+                        id="DinputPurchaseProductRemarks"
+                        value="{{purchaseProduct.備註}}"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+            <!-- modifyDataModal -->
+            <div
+              class="modal fade"
+              id="modifyDataModal{{purchaseOrder.採購單號}}"
+              data-backdrop="static"
+              data-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="modifyDataModal{{purchaseOrder.採購單號}}Label"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5
+                      class="modal-title"
+                      id="modifyDataModal{{purchaseOrder.採購單號}}Label"
+                    >
+                      修改客戶資料
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <form action="/purchaseOrders/modify" method="post">
+                    <div class="modal-body">
+                      {% csrf_token %}
+                      <div class="form-group">
+                        <label
+                          class="col-form-label"
+                          for="MinputPurchaseOrderCode"
+                          >採購單號</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="MpurchaseOrderCode"
+                          id="MinputPurchaseOrderCode"
+                          value="{{purchaseOrder.採購單號}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label
+                          class="col-form-label"
+                          for="MinputPurchaseOrderName"
+                          >客戶名稱</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="MpurchaseOrderName"
+                          id="MinputPurchaseOrderName"
+                          value="{{purchaseOrder.客戶名稱}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputContactPerson"
+                          >聯絡人</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="McontactPerson"
+                          id="MinputContactPerson"
+                          value="{{purchaseOrder.聯絡人}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputPhone"
+                          >電話</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Mphone"
+                          id="MinputPhone"
+                          value="{{purchaseOrder.電話}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputAddress"
+                          >地址</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Maddress"
+                          id="MinputAddress"
+                          value="{{purchaseOrder.地址}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputUnifiedNumber"
+                          >統一編號</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="MunifiedNumber"
+                          id="MinputUnifiedNumber"
+                          value="{{purchaseOrder.統一編號}}"
+                          readonly
+                        />
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-dismiss="modal"
+                      >
+                        關閉
+                      </button>
+                      <button type="submit" class="btn btn-primary">
+                        修改
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Page Heading -->
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

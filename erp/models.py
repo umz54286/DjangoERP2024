@@ -29,10 +29,10 @@ class 產品(models.Model):
     產品描述 = models.TextField(default="")
     類別= models.CharField(max_length=20)
     單位= models.CharField(max_length=10)
-    進貨成本 = models.DecimalField(max_digits=10,decimal_places=2)
-    售價 = models.DecimalField(max_digits=10,decimal_places=2)
-    庫存量 = models.IntegerField(default=0)
-    安全庫存量 = models.IntegerField(default=0)
+    進貨成本 = models.DecimalField(max_digits=10,decimal_places=2,null=True)
+    售價 = models.DecimalField(max_digits=10,decimal_places=2,null=True)
+    庫存量 = models.IntegerField(default=0,null=True)
+    安全庫存量 = models.IntegerField(default=0,null=True)
     供應商 = models.ForeignKey(供應商, on_delete=models.CASCADE)
 
 class 銷售主檔(models.Model):

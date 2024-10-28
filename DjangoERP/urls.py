@@ -16,16 +16,33 @@ Including another URLconf
 """
 # from django.contrib import admin
 from django.urls import path
-from erp.views import dashboard, products,insertProducts, modifyProducts, customers,insertCustomers,modifyCustomers
+from erp.views import dashboard, products,insertProducts, modifyProducts,purchaseOrders, insertPurchaseOrders, modifyPurchaseOrders, suppliers, insertSuppliers, modifySuppliers, orders, insertOrders, modifyOrders, customers, insertCustomers, modifyCustomers, inventories, inventoryReport
 
 
 urlpatterns = [
+    re_path(r'^static/(?P<path>.*)$', serve, {'document_root':settings.STATIC_ROOT}, name='static')
     path("", dashboard),
     path("products", products),
     path("products/insert", insertProducts),
     path("products/modify", modifyProducts),
 
+    path("purchaseOrders", purchaseOrders),
+    path("purchaseOrders/insert", insertPurchaseOrders),
+    path("purchaseOrders/modify", modifyPurchaseOrders),
+
+    path("suppliers", suppliers),
+    path("suppliers/insert", insertSuppliers),
+    path("suppliers/modify", modifySuppliers),
+
+    path("orders", orders),
+    path("orders/insert", insertOrders),
+    path("orders/modify", modifyOrders),
+
     path("customers", customers),
     path("customers/insert", insertCustomers),
     path("customers/modify", modifyCustomers),
+
+    path("inventories", inventories),
+
+    path("inventoryReport", inventoryReport),
 ]

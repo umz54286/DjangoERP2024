@@ -1,0 +1,52 @@
+{% extends 'layout.html' %} {% block title%}
+<title>ERP SYSTEM - 庫存報表</title> {% endblock %} {% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">庫存報表</h1>
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <input
+        class="form-control"
+        id="myInput"
+        type="text"
+        placeholder="Search..."
+      />
+      <button id="sheetjsexport"><b>輸出</b></button>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-bordered"
+          id="inventoryReportDataTable"
+          width="100%"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>產品編號</th>
+              <th>產品名稱</th>
+              <th>產品描述</th>
+              <th>庫存數量</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for inventory in inventoryReport %}
+            <tr>
+              <td>{{inventory.產品.產品編號}}</td>
+              <td>{{inventory.產品.產品名稱}}</td>
+              <td>{{inventory.產品.產品描述}}</td>
+              <td>{{total_count}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Page Heading -->
+</div>
+<!-- /.container-fluid -->
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'layout.html' %} {% block title%}
+<title>ERP SYSTEM - 庫存管理</title> {% endblock %} {% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <h1 class="h3 mb-2 text-gray-800">庫存管理</h1>
+  <!-- DataTales Example -->
+  <div class="card shadow mt-3 mb-4">
+    <div class="card-header py-3">
+      <input
+        class="form-control"
+        id="myInput"
+        type="text"
+        placeholder="Search..."
+      />
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table
+          class="table table-bordered"
+          id="inventoryDataTable"
+          width="100%"
+          cellspacing="0"
+        >
+          <thead>
+            <tr>
+              <th>產品編號</th>
+              <th>產品名稱</th>
+              <th>產品描述</th>
+              <th>異動數量</th>
+              <th>入庫日期</th>
+              <th>出庫日期</th>
+              <th>備註</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for inventory in inventories %}
+            <tr>
+              <td>{{inventory.產品.產品編號}}</td>
+              <td>{{inventory.產品.產品名稱}}</td>
+              <td>{{inventory.產品.產品描述}}</td>
+              <td>{{inventory.庫存數量}}</td>
+              <td>{{inventory.入庫日期}}</td>
+              <td>{{inventory.出庫日期}}</td>
+              <td>{{inventory.備註}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Page Heading -->
+</div>
+<!-- /.container-fluid -->
+{% endblock %}
