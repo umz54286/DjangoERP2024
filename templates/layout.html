@@ -243,7 +243,7 @@
       $("#sheetjsexport").click(function () {
         const table = document.getElementById("inventoryReportDataTable");
         const new_sheet = XLSX.utils.table_to_book(table);
-        XLSX.writeFile(new_sheet, "SheetJSTable.xlsx");
+        XLSX.writeFile(new_sheet, "庫存報表.xlsx");
       });
     </script>
   </body>

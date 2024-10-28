@@ -1,5 +1,16 @@
 {% extends 'layout.html' %} {% block title%}
-<title>ERP SYSTEM - 採購資料管理</title> {% endblock %} {% block content %}
+<title>ERP SYSTEM - 採購資料管理</title>
+<style>
+  .iconColor {
+    height: 20px;
+    width: 20px;
+    color: #7e7e7e;
+    /* border: 1px solid #c4c4c4;
+    border-radius: 10%; */
+    padding-top: 1px;
+  }
+</style>
+{% endblock %} {% block content %}
 <!-- Begin Page Content -->
 <div class="container-fluid">
   <!-- Page Heading -->
@@ -156,7 +167,7 @@
                   data-target="#detailDataModal{{purchaseOrder.採購單號}}"
                   style="border: 0; background-color: #fff"
                 >
-                  <i class="fas fa-file"></i>
+                  <i class="fas fa-file iconColor"></i>
                 </button>
                 <button
                   type="button"
@@ -164,7 +175,7 @@
                   data-target="#modifyDataModal{{purchaseOrder.採購單號}}"
                   style="border: 0; background-color: #fff"
                 >
-                  <i class="fas fa-pen"></i>
+                  <i class="fas fa-pen iconColor"></i>
                 </button>
               </td>
             </tr>
@@ -175,7 +186,7 @@
               id="detailDataModal{{purchaseOrder.採購單號}}"
               data-backdrop="static"
               data-keyboard="false"
-              tabindex="-2"
+              tabindex="-1"
               aria-labelledby="detailDataModal{{purchaseOrder.採購單號}}Label"
               aria-hidden="true"
             >
