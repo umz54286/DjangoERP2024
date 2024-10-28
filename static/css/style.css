@@ -41,3 +41,8 @@ h6 {
   color: #617774;
   text-decoration: none;
 }
+
+.modal {
+  position: relative;
+  z-index: 2040 !important;
+}
