@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from erp.models import 客戶, 供應商, 產品, 銷售主檔, 銷售明細, 採購主檔, 採購明細, 庫存
 
 # Create your views here.
@@ -14,6 +14,19 @@ def products(request):
     except:
         return render(request, 'products.html')
 
+def insertProducts(request):
+    try:
+        supplier = 供應商.objects.get(供應商名稱 = request.POST['Isupplier'])
+
+        unit = 產品.objects.create(產品編號 = request.POST['IproductCode'], 產品名稱 = request.POST['IproductName'], 產品描述 = request.POST['IproductDescription'], 類別 = request.POST['Icategory'] , 單位 = request.POST['Iunit'] , 供應商 = supplier)
+        
+        unit.save()
+        
+        products = 產品.objects.all().order_by('產品編號')
+        return redirect('products')
+    except:               
+        pass 
+
 def modifyProducts(request):
     try:
         unit = 產品.objects.get(產品編號 = request.POST['MproductCode'])
@@ -24,7 +37,7 @@ def modifyProducts(request):
         unit.save()
         
         products = 產品.objects.all().order_by('產品編號')
-        return render(request, 'products.html', locals())
+        return redirect('products')
     except:
         pass 
 
@@ -35,6 +48,30 @@ def purchaseOrders(request):
         return render(request, 'purchaseOrders.html', locals())
     except:
         pass
+
+def insertPurchaseOrders(request):
+    try:
+        supplier = 供應商.objects.get(供應商名稱 = request.POST['Isupplier'])
+
+        unit = 採購主檔.objects.create(採購單號 = request.POST['IpurchaseOrderCode'], 採購日期 = request.POST['IpurchaseDate'], 預計到貨日期 = request.POST['IarriveDate'], 付款方式 = request.POST['Ipayment'] , 備註 = request.POST['Inote'] , 供應商 = supplier)
+        
+        unit.save()
+
+        purchaseOrder = 採購主檔.objects.get(採購單號 = request.POST['IpurchaseOrderCode'])
+
+        product = 產品.objects.get(產品編號 = request.POST['IpurchaseProduct'])
+
+        unit = 採購明細.objects.create(採購主檔 = purchaseOrder, 產品 = product, 數量 = request.POST['IpurchaseQuantity'], 單價 = request.POST['IunitPrice'] , 金額 = request.POST['Iamount'])
+
+        unit.save()
+        
+        # purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商')
+        # purchaseProducts = 採購明細.objects.select_related('產品')
+
+        return redirect('/purchaseOrders')
+    except:               
+        pass 
+
 
 def suppliers(request):
     try:
@@ -50,7 +87,7 @@ def insertSuppliers(request):
         unit.save()
         
         suppliers = 供應商.objects.all().order_by('供應商編號')
-        return render(request, 'suppliers.html', locals())
+        return redirect('suppliers')
     except:               
         pass 
 
@@ -65,7 +102,7 @@ def modifySuppliers(request):
         unit.save()
         
         suppliers = 供應商.objects.all().order_by('供應商編號')
-        return render(request, 'suppliers.html', locals())
+        return redirect('suppliers')
     except:
         pass 
 
@@ -91,7 +128,7 @@ def insertCustomers(request):
         unit.save()
         
         customers = 客戶.objects.all().order_by('客戶編號')
-        return render(request, 'customers.html', locals())
+        return redirect('customers')
     except:               
         pass 
 
@@ -106,7 +143,7 @@ def modifyCustomers(request):
         unit.save()
         
         customers = 客戶.objects.all().order_by('客戶編號')
-        return render(request, 'customers.html', locals())
+        return redirect('customers')
     except:
         pass
 
@@ -118,32 +155,7 @@ def inventories(request):
         pass
 
 
-# 要修改
-def insertProducts(request):
-    try:
-        supplier = 供應商.objects.get(供應商名稱 = request.POST['Isupplier'])
-
-        unit = 產品.objects.create(產品編號 = request.POST['IproductCode'], 產品名稱 = request.POST['IproductName'], 產品描述 = request.POST['IproductDescription'], 類別 = request.POST['Icategory'] , 單位 = request.POST['Iunit'] , 供應商 = supplier.序號)
-        
-        unit.save()
-        
-        products = 產品.objects.all().order_by('產品編號')
-        return render(request, 'products.html', locals())
-    except :               
-        pass 
-    
-def insertPurchaseOrders(request):
-    try:
-        # supplier = 供應商.objects.get(供應商名稱 = request.POST['Isupplier'])
-
-        # unit = 產品.objects.create(產品編號 = request.POST['IproductCode'], 產品名稱 = request.POST['IproductName'], 產品描述 = request.POST['IproductDescription'], 類別 = request.POST['Icategory'] , 單位 = request.POST['Iunit'] , 供應商 = supplier)
-        
-        # unit.save()
-        
-        # customers = 產品.objects.all().order_by('產品編號')
-        return render(request, 'purchaseOrders.html', locals())
-    except:               
-        pass 
+# 要修改    
 
 def modifyPurchaseOrders(request):
     try:
