@@ -129,12 +129,8 @@ def insertProducts(request):
         
         products = 產品.objects.all().order_by('產品編號')
         return render(request, 'products.html', locals())
-    except:               
+    except :               
         pass 
-
-
-        
-
     
 def insertPurchaseOrders(request):
     try:
@@ -165,9 +161,6 @@ def modifyPurchaseOrders(request):
         pass 
 
 
-
-
-    
 def insertOrders(request):
     try:
         unit = 客戶.objects.create(客戶編號 = request.POST['IcustomerCode'], 客戶名稱 = request.POST['IcustomerName'], 聯絡人 = request.POST['IcontactPerson'], 電話 = request.POST['Iphone'] , 地址 = request.POST['Iaddress'] , 統一編號 = request.POST['IunifiedNumber'])
@@ -193,7 +186,6 @@ def modifyOrders(request):
         return render(request, 'orders.html', locals())
     except:
         pass 
-
 
 
 def inventoryReport(request):
