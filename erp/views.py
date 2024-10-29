@@ -23,7 +23,7 @@ def insertProducts(request):
         unit.save()
         
         products = 產品.objects.all().order_by('產品編號')
-        return redirect('products')
+        return render(request, 'products.html', locals())
     except:               
         pass 
 
@@ -37,7 +37,7 @@ def modifyProducts(request):
         unit.save()
         
         products = 產品.objects.all().order_by('產品編號')
-        return redirect('products')
+        return render(request, 'products.html', locals())
     except:
         pass 
 
