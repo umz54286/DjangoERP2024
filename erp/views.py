@@ -23,7 +23,7 @@ def insertProducts(request):
         unit.save()
         
         products = 產品.objects.all().order_by('產品編號')
-        return render(request, 'products.html', locals())
+        return render(request, '/products', locals())
     except:               
         pass 
 
@@ -37,7 +37,7 @@ def modifyProducts(request):
         unit.save()
         
         products = 產品.objects.all().order_by('產品編號')
-        return render(request, 'products.html', locals())
+        return render(request, '/products', locals())
     except:
         pass 
 
@@ -87,7 +87,7 @@ def insertSuppliers(request):
         unit.save()
         
         suppliers = 供應商.objects.all().order_by('供應商編號')
-        return redirect('suppliers')
+        return redirect('/suppliers')
     except:               
         pass 
 
@@ -102,7 +102,7 @@ def modifySuppliers(request):
         unit.save()
         
         suppliers = 供應商.objects.all().order_by('供應商編號')
-        return redirect('suppliers')
+        return redirect('/suppliers')
     except:
         pass 
 
@@ -128,7 +128,7 @@ def insertCustomers(request):
         unit.save()
         
         customers = 客戶.objects.all().order_by('客戶編號')
-        return redirect('customers')
+        return redirect('/customers')
     except:               
         pass 
 
@@ -143,7 +143,7 @@ def modifyCustomers(request):
         unit.save()
         
         customers = 客戶.objects.all().order_by('客戶編號')
-        return redirect('customers')
+        return redirect('/customers')
     except:
         pass
 
