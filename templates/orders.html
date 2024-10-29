@@ -1,5 +1,16 @@
 {% extends 'layout.html' %} {% block title%}
-<title>ERP SYSTEM - 銷售資料管理</title> {% endblock %} {% block content %}
+<title>ERP SYSTEM - 銷售資料管理</title>
+<style>
+  .iconColor {
+    height: 20px;
+    width: 20px;
+    color: #7e7e7e;
+    /* border: 1px solid #c4c4c4;
+    border-radius: 10%; */
+    padding-top: 1px;
+  }
+</style>
+{% endblock %} {% block content %}
 <!-- Begin Page Content -->
 <div class="container-fluid">
   <!-- Page Heading -->
@@ -55,54 +66,110 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label class="col-form-label" for="IinputOrderName"
+                  <label class="col-form-label" for="IinputSellDate"
                     >銷售日期</label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    name="IorderName"
-                    id="IinputOrderName"
+                    name="IsellDate"
+                    id="IinputSellDate"
                   />
                 </div>
+
                 <div class="form-group">
-                  <label class="col-form-label" for="IinputContactPerson"
-                    >聯絡人</label
+                  <label class="col-form-label" for="IinputCustomerName"
+                    >客戶名稱</label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    name="IcontactPerson"
-                    id="IinputContactPerson"
+                    name="IcustomerName"
+                    id="IinputCustomerName"
                   />
                 </div>
                 <div class="form-group">
-                  <label class="col-form-label" for="IinputPhone">電話</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="Iphone"
-                    id="IinputPhone"
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="col-form-label" for="IinputAddress">地址</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="Iaddress"
-                    id="IinputAddress"
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="col-form-label" for="IinputUnifiedNumber"
-                    >統一編號</label
+                  <label class="col-form-label" for="IinputProdoctName"
+                    >產品名稱</label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    name="IunifiedNumber"
-                    id="IinputUnifiedNumber"
+                    name="IproductName"
+                    id="IinputProdoctName"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputQuantity"
+                    >數量</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Iquantity"
+                    id="IinputQuantity"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputUnitPrice"
+                    >單價</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IunitPrice"
+                    id="IinputUnitPrice"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputDiscount"
+                    >折扣</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Idiscount"
+                    id="IinputDiscount"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputAmount">金額</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Iamount"
+                    id="IinputAmount"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputPayment"
+                    >付款方式</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Ipayment"
+                    id="IinputPayment"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputDelivery"
+                    >運送方式</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Idelivery"
+                    id="IinputDelivery"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputRemark">備註</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Iremark"
+                    id="IinputRemark"
                   />
                 </div>
               </div>
@@ -132,11 +199,11 @@
           <thead>
             <tr>
               <th>銷售單號</th>
+              <th>客戶名稱</th>
               <th>銷售日期</th>
-              <th>聯絡人</th>
-              <th>電話</th>
-              <th>地址</th>
-              <th>統一編號</th>
+              <th>付款方式</th>
+              <th>運送方式</th>
+              <th>備註</th>
               <th>動作</th>
             </tr>
           </thead>
@@ -144,23 +211,138 @@
             {% for order in orders %}
             <tr>
               <td>{{order.銷售單號}}</td>
+              <td>{{order.客戶.客戶名稱}}</td>
               <td>{{order.銷售日期}}</td>
-              <td>{{order.聯絡人}}</td>
-              <td>{{order.電話}}</td>
-              <td>{{order.地址}}</td>
-              <td>{{order.統一編號}}</td>
+              <td>{{order.付款方式}}</td>
+              <td>{{order.運送方式}}</td>
+              <td>{{order.備註}}</td>
               <td>
+                <button
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#detailDataModal{{order.銷售單號}}"
+                  style="border: 0; background-color: #fff"
+                >
+                  <i class="fas fa-file iconColor"></i>
+                </button>
                 <button
                   type="button"
                   data-toggle="modal"
                   data-target="#modifyDataModal{{order.銷售單號}}"
                   style="border: 0; background-color: #fff"
                 >
-                  <i class="fas fa-pen"></i>
+                  <i class="fas fa-pen iconColor"></i>
                 </button>
               </td>
             </tr>
-            <!-- Modal -->
+            <!-- detailDataModal -->
+            {% for sellProduct in sellProducts %}
+            <div
+              class="modal fade"
+              id="detailDataModal{{order.銷售單號}}"
+              data-backdrop="static"
+              data-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="detailDataModal{{order.銷售單號}}Label"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5
+                      class="modal-title"
+                      id="detailDataModal{{order.銷售單號}}Label"
+                    >
+                      銷售資料明細
+                    </h5>
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label class="col-form-label" for="DinputOrderCode"
+                        >銷售單號</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DorderCode"
+                        id="DinputOrderCode"
+                        value="{{order.銷售單號}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label" for="DinputProdoctName"
+                        >產品編號</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DproductName"
+                        id="DinputProdoctName"
+                        value="{{sellProduct.產品.產品編號}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label" for="DinputQuantity"
+                        >數量</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="Dquantity"
+                        id="DinputQuantity"
+                        value="{{sellProduct.數量}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label" for="DinputUnitPrice"
+                        >單價</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DunitPrice"
+                        id="DinputUnitPrice"
+                        value="{{sellProduct.單價}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label" for="DinputDiscount"
+                        >折扣</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="Ddiscount"
+                        id="DinputDiscount"
+                        value="{{sellProduct.折扣}}"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="col-form-label" for="DinputAmount"
+                        >金額</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="Damount"
+                        id="DinputAmount"
+                        value="{{sellProduct.金額}}"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- modifyDataModal -->
             <div
               class="modal fade"
               id="modifyDataModal{{order.銷售單號}}"
@@ -177,7 +359,7 @@
                       class="modal-title"
                       id="modifyDataModal{{order.銷售單號}}Label"
                     >
-                      修改客戶資料
+                      修改銷售資料
                     </h5>
                     <button
                       type="button"
@@ -201,67 +383,117 @@
                           name="MorderCode"
                           id="MinputOrderCode"
                           value="{{order.銷售單號}}"
+                          readonly
                         />
                       </div>
                       <div class="form-group">
-                        <label class="col-form-label" for="MinputOrderName"
+                        <label class="col-form-label" for="MinputSellDate"
                           >銷售日期</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          name="MorderName"
-                          id="MinputOrderName"
+                          name="MsellDate"
+                          id="MinputSellDate"
                           value="{{order.銷售日期}}"
                         />
                       </div>
+
                       <div class="form-group">
-                        <label class="col-form-label" for="MinputContactPerson"
-                          >聯絡人</label
+                        <label class="col-form-label" for="MinputCustomerName"
+                          >客戶名稱</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          name="McontactPerson"
-                          id="MinputContactPerson"
-                          value="{{order.聯絡人}}"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label" for="MinputPhone"
-                          >電話</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="Mphone"
-                          id="MinputPhone"
-                          value="{{order.電話}}"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label" for="MinputAddress"
-                          >地址</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="Maddress"
-                          id="MinputAddress"
-                          value="{{order.地址}}"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label" for="MinputUnifiedNumber"
-                          >統一編號</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="MunifiedNumber"
-                          id="MinputUnifiedNumber"
-                          value="{{order.統一編號}}"
+                          name="McustomerName"
+                          id="MinputCustomerName"
+                          value="{{order.客戶.客戶名稱}}"
                           readonly
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="IinputProdoctName"
+                          >產品編號</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="MproductName"
+                          id="MinputProdoctName"
+                          value="{{sellProduct.產品.產品編號}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputQuantity"
+                          >數量</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Mquantity"
+                          id="MinputQuantity"
+                          value="{{sellProduct.數量}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputUnitPrice"
+                          >單價</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="MunitPrice"
+                          id="MinputUnitPrice"
+                          value="{{sellProduct.單價}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputDiscount"
+                          >折扣</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Mdiscount"
+                          id="MinputDiscount"
+                          value="{{sellProduct.折扣}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputAmount"
+                          >金額</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Mamount"
+                          id="MinputAmount"
+                          value="{{sellProduct.金額}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputPayment"
+                          >付款方式</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Mpayment"
+                          id="MinputPayment"
+                          value="{{order.付款方式}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputDelivery"
+                          >運送方式</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Mdelivery"
+                          id="MinputDelivery"
+                          value="{{order.運送方式}}"
                         />
                       </div>
                     </div>
@@ -281,7 +513,7 @@
                 </div>
               </div>
             </div>
-            {% endfor %}
+            {% endfor %} {% endfor %}
           </tbody>
         </table>
       </div>

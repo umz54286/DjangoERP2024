@@ -25,7 +25,7 @@ from erp.views import dashboard, products,insertProducts, modifyProducts,purchas
 
 urlpatterns = [
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root':settings.STATIC_ROOT}, name='staticfiles'),
-    path("", dashboard),
+    path("", inventories),
     path("products", products),
     path("products/insert", insertProducts),
     path("products/modify", modifyProducts),

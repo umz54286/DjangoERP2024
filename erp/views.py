@@ -28,6 +28,14 @@ def modifyProducts(request):
     except:
         pass 
 
+def purchaseOrders(request):
+    try:
+        purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商')
+        purchaseProducts = 採購明細.objects.select_related('產品')
+        return render(request, 'purchaseOrders.html', locals())
+    except:
+        pass
+
 def suppliers(request):
     try:
         suppliers = 供應商.objects.all().order_by('供應商編號')
@@ -60,6 +68,14 @@ def modifySuppliers(request):
         return render(request, 'suppliers.html', locals())
     except:
         pass 
+
+def orders(request):
+    try:
+        orders = 銷售主檔.objects.select_related('銷售明細','客戶')
+        sellProducts = 銷售明細.objects.select_related('產品')
+        return render(request, 'orders.html', locals())
+    except:
+        pass
 
 def customers(request):
     try:
@@ -118,13 +134,7 @@ def insertProducts(request):
 
 
         
-def purchaseOrders(request):
-    try:
-        purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商')
-        purchaseProducts = 採購明細.objects.select_related('產品')
-        return render(request, 'purchaseOrders.html', locals())
-    except:
-        pass
+
     
 def insertPurchaseOrders(request):
     try:
@@ -156,12 +166,7 @@ def modifyPurchaseOrders(request):
 
 
 
-def orders(request):
-    try:
-        customers = 客戶.objects.all().order_by('客戶編號')
-        return render(request, 'orders.html', locals())
-    except:
-        pass
+
     
 def insertOrders(request):
     try:

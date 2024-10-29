@@ -66,54 +66,98 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label class="col-form-label" for="IinputPurchaseOrderName"
-                    >客戶名稱</label
+                  <label class="col-form-label" for="IinputPurchaseProduct"
+                    >產品編號</label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    name="IpurchaseOrderName"
-                    id="IinputPurchaseOrderName"
+                    name="IpurchaseProduct"
+                    id="IinputPurchaseProduct"
                   />
                 </div>
                 <div class="form-group">
-                  <label class="col-form-label" for="IinputContactPerson"
-                    >聯絡人</label
+                  <label class="col-form-label" for="IinputPurchaseQuantity"
+                    >數量</label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    name="IcontactPerson"
-                    id="IinputContactPerson"
+                    name="IpurchaseQuantity"
+                    id="IinputPurchaseQuantity"
                   />
                 </div>
                 <div class="form-group">
-                  <label class="col-form-label" for="IinputPhone">電話</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="Iphone"
-                    id="IinputPhone"
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="col-form-label" for="IinputAddress">地址</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="Iaddress"
-                    id="IinputAddress"
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="col-form-label" for="IinputUnifiedNumber"
-                    >統一編號</label
+                  <label class="col-form-label" for="IinputUnitPrice"
+                    >單價</label
                   >
                   <input
                     type="text"
                     class="form-control"
-                    name="IunifiedNumber"
-                    id="IinputUnifiedNumber"
+                    name="IunitPrice"
+                    id="IinputUnitPrice"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputAmount">金額</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Iamount"
+                    id="IinputAmount"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputPurchaseDate"
+                    >採購日期</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IpurchaseDate"
+                    id="IinputPurchaseDate"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputArriveDate"
+                    >預計到貨日期</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="IarriveDate"
+                    id="IinputArriveDate"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputPayment"
+                    >付款方式</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Ipayment"
+                    id="IinputPayment"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputNote">備註</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Inote"
+                    id="IinputNote"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputSupplier"
+                    >供應商名稱</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Isupplier"
+                    id="IinputSupplier"
                   />
                 </div>
               </div>
@@ -211,14 +255,14 @@
                   <div class="modal-body">
                     <div class="form-group">
                       <label class="col-form-label" for="DinputPurchaseProduct"
-                        >產品名稱</label
+                        >產品編號</label
                       >
                       <input
                         type="text"
                         class="form-control"
                         name="DpurchaseProduct"
                         id="DinputPurchaseProduct"
-                        value="{{purchaseProduct.產品.產品名稱}}"
+                        value="{{purchaseProduct.產品.產品編號}}"
                       />
                     </div>
                     <div class="form-group">
@@ -281,7 +325,7 @@
                 </div>
               </div>
             </div>
-            {% endfor %}
+
             <!-- modifyDataModal -->
             <div
               class="modal fade"
@@ -299,7 +343,7 @@
                       class="modal-title"
                       id="modifyDataModal{{purchaseOrder.採購單號}}Label"
                     >
-                      修改客戶資料
+                      修改採購資料
                     </h5>
                     <button
                       type="button"
@@ -325,69 +369,110 @@
                           name="MpurchaseOrderCode"
                           id="MinputPurchaseOrderCode"
                           value="{{purchaseOrder.採購單號}}"
+                          readonly
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputPurchaseDate"
+                          >採購日期</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="MpurchaseDate"
+                          id="MinputPurchaseDate"
+                          value="{{purchaseOrder.採購日期}}"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputSupplier"
+                          >供應商名稱</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Msupplier"
+                          id="MinputSupplier"
+                          value="{{purchaseOrder.供應商.供應商名稱}}"
+                          readonly
                         />
                       </div>
                       <div class="form-group">
                         <label
                           class="col-form-label"
-                          for="MinputPurchaseOrderName"
-                          >客戶名稱</label
+                          for="MinputPurchaseProduct"
+                          >產品編號</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          name="MpurchaseOrderName"
-                          id="MinputPurchaseOrderName"
-                          value="{{purchaseOrder.客戶名稱}}"
+                          name="MpurchaseProduct"
+                          id="MinputPurchaseProduct"
+                          value="{{purchaseProduct.產品.產品編號}}"
+                        />
+                      </div>
+
+                      <div class="form-group">
+                        <label
+                          class="col-form-label"
+                          for="MinputPurchaseQuantity"
+                          >數量</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="MpurchaseQuantity"
+                          id="MinputPurchaseQuantity"
+                          value="{{purchaseProduct.數量}}"
                         />
                       </div>
                       <div class="form-group">
-                        <label class="col-form-label" for="MinputContactPerson"
-                          >聯絡人</label
+                        <label class="col-form-label" for="MinputUnitPrice"
+                          >單價</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          name="McontactPerson"
-                          id="MinputContactPerson"
-                          value="{{purchaseOrder.聯絡人}}"
+                          name="MunitPrice"
+                          id="MinputUnitPrice"
+                          value="{{purchaseProduct.單價}}"
                         />
                       </div>
                       <div class="form-group">
-                        <label class="col-form-label" for="MinputPhone"
-                          >電話</label
+                        <label class="col-form-label" for="MinputAmount"
+                          >金額</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          name="Mphone"
-                          id="MinputPhone"
-                          value="{{purchaseOrder.電話}}"
+                          name="Mamount"
+                          id="MinputAmount"
+                          value="{{purchaseProduct.金額}}"
+                        />
+                      </div>
+
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputArriveDate"
+                          >預計到貨日期</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="MarriveDate"
+                          id="MinputArriveDate"
+                          value="{{purchaseOrder.預計到貨日期}}"
                         />
                       </div>
                       <div class="form-group">
-                        <label class="col-form-label" for="MinputAddress"
-                          >地址</label
+                        <label class="col-form-label" for="MinputPayment"
+                          >付款方式</label
                         >
                         <input
                           type="text"
                           class="form-control"
-                          name="Maddress"
-                          id="MinputAddress"
-                          value="{{purchaseOrder.地址}}"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label class="col-form-label" for="MinputUnifiedNumber"
-                          >統一編號</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="MunifiedNumber"
-                          id="MinputUnifiedNumber"
-                          value="{{purchaseOrder.統一編號}}"
-                          readonly
+                          name="Mpayment"
+                          id="MinputPayment"
+                          value="{{purchaseOrder.付款方式}}"
                         />
                       </div>
                     </div>
@@ -407,7 +492,7 @@
                 </div>
               </div>
             </div>
-            {% endfor %}
+            {% endfor %}{% endfor %}
           </tbody>
         </table>
       </div>

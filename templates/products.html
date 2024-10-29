@@ -1,5 +1,17 @@
 {% extends 'layout.html' %} {% block title%}
-<title>ERP SYSTEM - 產品資料管理</title> {% endblock %} {% block content %}
+<title>ERP SYSTEM - 產品資料管理</title>
+<style>
+  .iconColor {
+    height: 20px;
+    width: 20px;
+    color: #7e7e7e;
+    /* border: 1px solid #c4c4c4;
+    border-radius: 10%; */
+    padding-top: 1px;
+    padding-left: 5px;
+  }
+</style>
+{% endblock %} {% block content %}
 <!-- Begin Page Content -->
 <div class="container-fluid">
   <!-- Page Heading -->
@@ -158,7 +170,7 @@
                   data-target="#modifyDataModal{{product.產品編號}}"
                   style="border: 0; background-color: #fff"
                 >
-                  <i class="fas fa-pen"></i>
+                  <i class="fas fa-pen iconColor"></i>
                 </button>
               </td>
             </tr>
