@@ -199,6 +199,19 @@ def modifyOrders(request):
     except:
         pass 
 
+def entry(request):
+    try:
+        inventories = 庫存.objects.select_related('產品')
+        return render(request, 'inventories.html', locals())
+    except:
+        pass
+
+def delivery(request):
+    try:
+        inventories = 庫存.objects.select_related('產品')
+        return render(request, 'inventories.html', locals())
+    except:
+        pass
 
 def inventoryReport(request):
     try:
