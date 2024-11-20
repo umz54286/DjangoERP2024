@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from erp.models import 客戶, 供應商, 產品, 銷售主檔, 銷售明細, 採購主檔, 採購明細, 庫存
+from datetime import date
 
 # Create your views here.
 def dashboard(request):
     title = 'ERP SYSTEM - Dashboard'
     content_title = 'dashboard'
     return render(request, 'dashboard.html', locals())
+
 
 def products(request):
     try:
@@ -43,8 +45,7 @@ def modifyProducts(request):
 
 def purchaseOrders(request):
     try:
-        purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商')
-        purchaseProducts = 採購明細.objects.select_related('產品')
+        purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商').order_by('採購單號')
         return render(request, 'purchaseOrders.html', locals())
     except:
         pass
@@ -64,12 +65,39 @@ def insertPurchaseOrders(request):
         unit = 採購明細.objects.create(採購主檔 = purchaseOrder, 產品 = product, 數量 = request.POST['IpurchaseQuantity'], 單價 = request.POST['IunitPrice'] , 金額 = request.POST['Iamount'])
 
         unit.save()
-        
-        # purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商')
-        # purchaseProducts = 採購明細.objects.select_related('產品')
 
         return redirect('/purchaseOrders')
     except:               
+        pass 
+
+def modifyPurchaseOrders(request):
+    try:
+        # 供應商
+        supplier = 供應商.objects.get(供應商名稱 = request.POST['Msupplier'])
+
+        # 主檔
+        purchaseOrder = 採購主檔.objects.get(採購單號 = request.POST['MpurchaseOrderCode'])
+        purchaseOrder.採購日期 = request.POST['MpurchaseDate']
+        purchaseOrder.預計到貨日期 = request.POST['MarriveDate']
+        purchaseOrder.付款方式 = request.POST['Mpayment']
+        purchaseOrder.供應商 = supplier
+        purchaseOrder.狀態 = request.POST['Mstatus']  
+        purchaseOrder.備註 = request.POST['Mremark']      
+        purchaseOrder.save()
+
+        # 產品
+        product = 產品.objects.get(產品編號 = request.POST['MpurchaseProduct'])
+
+        # 明細
+        unit = 採購明細.objects.get(採購主檔 = purchaseOrder)
+        unit.數量 = request.POST['MpurchaseQuantity']
+        unit.單價 = request.POST['MunitPrice']
+        unit.金額 = request.POST['Mamount']
+        unit.產品 = product
+        unit.save()
+        
+        return redirect('/purchaseOrders')
+    except:
         pass 
 
 
@@ -154,24 +182,26 @@ def inventories(request):
     except:
         pass
 
+def entry(request):
+    try:
+        purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商').filter(狀態='已核准').order_by('採購單號')
+        today = date.today()
+        return render(request, 'entry.html', locals())
+    except:
+        pass
+
+
+def createEntry(request):
+    try:
+        product = 產品.objects.get(產品編號 = request.POST['purchaseProduct'])
+        unit = 庫存.objects.create(庫存數量 = request.POST['purchaseQuantity'], 入庫日期 = request.POST['arriveDate'], 備註 = '採購入庫', 產品 = product)
+        unit.save()
+
+        return redirect('/entry')
+    except:               
+        pass
 
 # 要修改    
-
-def modifyPurchaseOrders(request):
-    try:
-        # unit = 客戶.objects.get(統一編號 = request.POST['MunifiedNumber'])
-        # unit.客戶編號 = request.POST['McustomerCode']
-        # unit.客戶名稱 = request.POST['McustomerName']
-        # unit.聯絡人 = request.POST['McontactPerson']
-        # unit.電話 = request.POST['Mphone']
-        # unit.地址 = request.POST['Maddress']      
-        # unit.save()
-        
-        # customers = 客戶.objects.all().order_by('客戶編號')
-        return render(request, 'purchaseOrders.html', locals())
-    except:
-        pass 
-
 
 def insertOrders(request):
     try:
@@ -199,6 +229,14 @@ def modifyOrders(request):
     except:
         pass 
 
+
+def delivery(request):
+    try:
+        purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商')
+        # purchaseProducts = 採購明細.objects.select_related('產品')
+        return render(request, 'delivery.html', locals())
+    except:
+        pass
 
 def inventoryReport(request):
     try:

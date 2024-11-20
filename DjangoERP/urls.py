@@ -15,17 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import include, path, re_path
 from django.conf import settings
 from django.views.static import serve
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns # new
-from erp.views import dashboard, products,insertProducts, modifyProducts,purchaseOrders, insertPurchaseOrders, modifyPurchaseOrders, suppliers, insertSuppliers, modifySuppliers, orders, insertOrders, modifyOrders, customers, insertCustomers, modifyCustomers, inventories, inventoryReport
+from erp.views import dashboard, products,insertProducts, modifyProducts,purchaseOrders, insertPurchaseOrders, modifyPurchaseOrders, suppliers, insertSuppliers, modifySuppliers, orders, insertOrders, modifyOrders, customers, insertCustomers, modifyCustomers, inventories, entry, createEntry, delivery, inventoryReport
 
 
 urlpatterns = [
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root':settings.STATIC_ROOT}, name='staticfiles'),
     path("", inventories),
+    # path("api/products/", include("erp.urls")),
     path("products", products),
     path("products/insert", insertProducts),
     path("products/modify", modifyProducts),
@@ -47,6 +48,9 @@ urlpatterns = [
     path("customers/modify", modifyCustomers),
 
     path("inventories", inventories),
+    path("entry", entry),
+    path("entry/create", createEntry),
+    path("delivery", delivery),
 
     path("inventoryReport", inventoryReport),
 ]

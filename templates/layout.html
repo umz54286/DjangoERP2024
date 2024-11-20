@@ -125,12 +125,31 @@
           </div>
         </li>
 
-        <!-- Nav Item - 庫存管理 -->
+        <!-- Nav Item - 庫存管理 Collapse Menu -->
         <li class="nav-item">
-          <a class="nav-link" href="/inventories">
-            <i class="fas fa-warehouse"></i>
-            <span class="nav-item-font-color">庫存管理</span></a
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseStock"
+            aria-expanded="true"
+            aria-controls="collapseStock"
           >
+            <i class="fas fa-warehouse"></i>
+            <span class="nav-item-font-color">&nbsp;庫存模組</span>
+          </a>
+          <div
+            id="collapseStock"
+            class="collapse"
+            aria-labelledby="headingStock"
+            data-parent="#accordionSidebar"
+          >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="/inventories">庫存管理</a>
+              <a class="collapse-item" href="/entry">入庫作業</a>
+              <a class="collapse-item" href="/delivery">出庫作業</a>
+            </div>
+          </div>
         </li>
 
         <!-- Nav Item - 報表功能 Collapse Menu -->
@@ -237,6 +256,9 @@
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
         $("#inventoryReportDataTable tbody tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+        });
+        $("#dataTable tbody tr").filter(function () {
           $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
         });
       });
