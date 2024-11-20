@@ -11,7 +11,7 @@ def dashboard(request):
 
 def products(request):
     try:
-        products = 產品.objects.select_related('供應商')
+        products = 產品.objects.select_related('供應商').order_by('產品編號')
         return render(request, 'products.html', locals())
     except:
         return render(request, 'products.html')
