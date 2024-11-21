@@ -20,7 +20,7 @@ from django.conf import settings
 from django.views.static import serve
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns # new
-from erp.views import dashboard, products,insertProducts, modifyProducts,purchaseOrders, insertPurchaseOrders, modifyPurchaseOrders, suppliers, insertSuppliers, modifySuppliers, orders, insertOrders, modifyOrders, customers, insertCustomers, modifyCustomers, inventories, entry, createEntry, delivery, inventoryReport
+from erp.views import dashboard, products,insertProducts, modifyProducts,purchaseOrders, insertPurchaseOrders, modifyPurchaseOrders, suppliers, insertSuppliers, modifySuppliers, orders, insertOrders, modifyOrders, customers, insertCustomers, modifyCustomers, inventories, entry, createEntry, delivery, createDelivery, inventoryReport
 
 
 urlpatterns = [
@@ -51,6 +51,7 @@ urlpatterns = [
     path("entry", entry),
     path("entry/create", createEntry),
     path("delivery", delivery),
+    path("delivery/create", createDelivery),
 
     path("inventoryReport", inventoryReport),
 ]

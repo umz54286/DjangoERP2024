@@ -24,7 +24,6 @@ def insertProducts(request):
         
         unit.save()
         
-        products = 產品.objects.all().order_by('產品編號')
         return redirect('/products')
     except:               
         pass 
@@ -38,7 +37,6 @@ def modifyProducts(request):
         unit.單位 = request.POST['Munit']   
         unit.save()
         
-        products = 產品.objects.all().order_by('產品編號')
         return redirect('/products')
     except:
         pass 
@@ -111,10 +109,8 @@ def suppliers(request):
 def insertSuppliers(request):
     try:
         unit = 供應商.objects.create(供應商編號 = request.POST['IsupplierCode'], 供應商名稱 = request.POST['IsupplierName'], 聯絡人 = request.POST['IcontactPerson'], 電話 = request.POST['Iphone'] , 地址 = request.POST['Iaddress'] , 統一編號 = request.POST['IunifiedNumber'])
-        
         unit.save()
         
-        suppliers = 供應商.objects.all().order_by('供應商編號')
         return redirect('/suppliers')
     except:               
         pass 
@@ -129,7 +125,6 @@ def modifySuppliers(request):
         unit.地址 = request.POST['Maddress']      
         unit.save()
         
-        suppliers = 供應商.objects.all().order_by('供應商編號')
         return redirect('/suppliers')
     except:
         pass 
@@ -154,8 +149,6 @@ def insertCustomers(request):
         unit = 客戶.objects.create(客戶編號 = request.POST['IcustomerCode'], 客戶名稱 = request.POST['IcustomerName'], 聯絡人 = request.POST['IcontactPerson'], 電話 = request.POST['Iphone'] , 地址 = request.POST['Iaddress'] , 統一編號 = request.POST['IunifiedNumber'])
         
         unit.save()
-        
-        customers = 客戶.objects.all().order_by('客戶編號')
         return redirect('/customers')
     except:               
         pass 
@@ -170,7 +163,6 @@ def modifyCustomers(request):
         unit.地址 = request.POST['Maddress']      
         unit.save()
         
-        customers = 客戶.objects.all().order_by('客戶編號')
         return redirect('/customers')
     except:
         pass
@@ -197,7 +189,33 @@ def createEntry(request):
         unit = 庫存.objects.create(庫存數量 = request.POST['purchaseQuantity'], 入庫日期 = request.POST['arriveDate'], 備註 = '採購入庫', 產品 = product)
         unit.save()
 
+        purchaseOrder = 採購主檔.objects.get(採購單號 = request.POST['purchaseOrderCode'])
+        purchaseOrder.狀態 = '已入庫'
+        purchaseOrder.save()
+
         return redirect('/entry')
+    except:               
+        pass
+
+
+def delivery(request):
+    try:
+        orders = 銷售主檔.objects.select_related('銷售明細','客戶').filter(狀態='已核准').order_by('銷售單號')
+        today = date.today()
+        return render(request, 'delivery.html', locals())
+    except:
+        pass
+
+def createDelivery(request):
+    try:
+        product = 產品.objects.get(產品編號 = request.POST['sellProduct'])
+        unit = 庫存.objects.create(庫存數量 = -int(request.POST['sellQuantity']), 出庫日期 = request.POST['deliveryDate'], 備註 = '銷貨出庫', 產品 = product)
+        unit.save()
+
+        order = 銷售主檔.objects.get(銷售單號 = request.POST['orderCode'])
+        order.狀態 = '已出庫'
+        order.save()
+        return redirect('/delivery')
     except:               
         pass
 
@@ -230,13 +248,7 @@ def modifyOrders(request):
         pass 
 
 
-def delivery(request):
-    try:
-        purchaseOrders = 採購主檔.objects.select_related('採購明細','供應商')
-        # purchaseProducts = 採購明細.objects.select_related('產品')
-        return render(request, 'delivery.html', locals())
-    except:
-        pass
+
 
 def inventoryReport(request):
     try:

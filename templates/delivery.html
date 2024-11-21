@@ -16,6 +16,12 @@
     border-radius: 0.35rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
+  .iconColor {
+    height: 20px;
+    width: 20px;
+    color: #7e7e7e;
+    padding-top: 1px;
+  }
 </style>
 {% endblock %} {% block content %}
 <!-- Begin Page Content -->
@@ -25,7 +31,7 @@
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div
-      class="card-header py-3 d-flex flex-row bd-highligh justify-content-between"
+      class="card-header py-3 d-flex flex-row bd-highligh justify-content-end"
     >
       <input
         class="searchBar"
@@ -38,38 +44,159 @@
       <div class="table-responsive">
         <table
           class="table table-bordered"
-          id="inventoryReportDataTable"
+          id="dataTable"
           width="100%"
           cellspacing="0"
         >
           <thead>
             <tr>
-              <th>採購單號</th>
-              <th>供應商名稱</th>
-              <th>採購日期</th>
-              <th>預計到貨日期</th>
-              <th>付款方式</th>
+              <th>銷售單號</th>
+              <th>客戶名稱</th>
+              <th>訂單日期</th>
+              <th>產品編號</th>
+              <th>預計出庫數量</th>
+              <th>預計出庫日期</th>
               <th>備註</th>
               <th>出庫</th>
             </tr>
           </thead>
           <tbody>
-            {% for purchaseOrder in purchaseOrders %}
+            {% for order in orders %}
             <tr>
-              <td>{{purchaseOrder.採購單號}}</td>
-              <td>{{purchaseOrder.供應商.供應商名稱}}</td>
-              <td>{{purchaseOrder.採購日期}}</td>
-              <td>{{purchaseOrder.預計到貨日期}}</td>
-              <td>{{purchaseOrder.付款方式}}</td>
-              <td>{{purchaseOrder.備註}}</td>
+              <td>{{order.銷售單號}}</td>
+              <td>{{order.客戶.客戶名稱}}</td>
+              <td>{{order.銷售日期}}</td>
+              <td>{{order.銷售明細.產品.產品編號}}</td>
+              <td>{{order.銷售明細.數量}}</td>
+              <td></td>
+              <td>{{order.備註}}</td>
               <td>
-                <input
-                  type="checkbox"
-                  id="{{purchaseOrder.採購單號}}"
-                  name="purchaseOrder"
-                />
+                <button
+                  type="button"
+                  data-toggle="modal"
+                  data-target="#deliveryModal{{order.銷售單號}}"
+                  style="border: 0; background-color: #fff"
+                >
+                  <i class="far fa-check-square iconColor"></i>
+                </button>
+                <!-- deliveryDataModal -->
+                <div
+                  class="modal fade"
+                  id="deliveryModal{{order.銷售單號}}"
+                  data-backdrop="static"
+                  data-keyboard="false"
+                  tabindex="-1"
+                  aria-labelledby="deliveryModal{{order.銷售單號}}Label"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5
+                          class="modal-title"
+                          id="deliveryModal{{order.銷售單號}}Label"
+                        >
+                          確認出庫明細
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <form action="/delivery/create" method="post">
+                        <div class="modal-body">
+                          {% csrf_token %}
+                          <div class="form-group">
+                            <label class="col-form-label" for="inputOrderCode"
+                              >銷售單號</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="orderCode"
+                              id="inputOrderCode"
+                              value="{{order.銷售單號}}"
+                              readonly
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label class="col-form-label" for="inputSellDate"
+                              >訂單日期</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="sellDate"
+                              id="inputSellDate"
+                              value="{{order.銷售日期|date:'Y-m-d'}}"
+                              readonly
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label class="col-form-label" for="inputSellProduct"
+                              >產品編號</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="sellProduct"
+                              id="inputSellProduct"
+                              value="{{order.銷售明細.產品.產品編號}}"
+                              readonly
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label
+                              class="col-form-label"
+                              for="inputDeliveryDate"
+                              >實際出庫日期</label
+                            >
+                            <input
+                              type="date"
+                              class="form-control"
+                              name="deliveryDate"
+                              id="inputDeliveryDate"
+                              required
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label
+                              class="col-form-label"
+                              for="inputSellQuantity"
+                              >實際出庫數量</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="sellQuantity"
+                              id="inputSellQuantity"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                          >
+                            關閉
+                          </button>
+                          <button type="submit" class="btn btn-primary">
+                            送出
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
