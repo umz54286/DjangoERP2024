@@ -38,7 +38,8 @@ class 產品(models.Model):
 class 銷售主檔(models.Model):
     序號 = models.AutoField(primary_key=True)
     銷售單號 = models.CharField(max_length=20)
-    銷售日期 = models.DateField()
+    訂單日期 = models.DateField()
+    預計達交日期 = models.DateField()
     付款方式 = models.CharField(max_length=20)
     運送方式 = models.CharField(max_length=20)
     備註 = models.TextField(null=True)
