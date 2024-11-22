@@ -43,7 +43,7 @@ class 銷售主檔(models.Model):
     付款方式 = models.CharField(max_length=20)
     運送方式 = models.CharField(max_length=20)
     備註 = models.TextField(null=True)
-    狀態 = models.TextField(default='進行中')
+    狀態 = models.TextField(default='待核准')
     客戶 = models.ForeignKey(客戶, on_delete=models.CASCADE)
 
 class 銷售明細(models.Model):
@@ -62,7 +62,7 @@ class 採購主檔(models.Model):
     預計到貨日期 = models.DateField()
     付款方式 = models.CharField(max_length=20)
     備註 = models.TextField(null=True)
-    狀態 = models.TextField(default='進行中')
+    狀態 = models.TextField(default='待核准')
     供應商 = models.ForeignKey(供應商, on_delete=models.CASCADE)
 
 class 採購明細(models.Model):
