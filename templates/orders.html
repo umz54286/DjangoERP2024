@@ -9,6 +9,20 @@
     border-radius: 10%; */
     padding-top: 1px;
   }
+  .searchBar {
+    width: 300px;
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6e707e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d1d3e2;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
 </style>
 {% endblock %} {% block content %}
 <!-- Begin Page Content -->
@@ -17,7 +31,7 @@
   <h1 class="h3 mb-2 text-gray-800">銷售資料管理</h1>
   <!-- DataTales Example -->
   <div class="card shadow mt-3 mb-4">
-    <div class="card-header py-3">
+    <div class="card-header py-3 d-flex flex-row justify-content-between">
       <button
         type="button"
         class="btn btn-primary"
@@ -63,20 +77,33 @@
                     class="form-control"
                     name="IorderCode"
                     id="IinputOrderCode"
+                    required
                   />
                 </div>
                 <div class="form-group">
                   <label class="col-form-label" for="IinputSellDate"
-                    >銷售日期</label
+                    >訂單日期</label
                   >
                   <input
-                    type="text"
+                    type="date"
                     class="form-control"
                     name="IsellDate"
                     id="IinputSellDate"
+                    required
                   />
                 </div>
-
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputDeliveryDate"
+                    >預計達交日期</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="IdeliveryDate"
+                    id="IinputDeliveryDate"
+                    required
+                  />
+                </div>
                 <div class="form-group">
                   <label class="col-form-label" for="IinputCustomerName"
                     >客戶名稱</label
@@ -86,17 +113,19 @@
                     class="form-control"
                     name="IcustomerName"
                     id="IinputCustomerName"
+                    required
                   />
                 </div>
                 <div class="form-group">
                   <label class="col-form-label" for="IinputProdoctName"
-                    >產品名稱</label
+                    >產品編號</label
                   >
                   <input
                     type="text"
                     class="form-control"
                     name="IproductName"
                     id="IinputProdoctName"
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -108,6 +137,7 @@
                     class="form-control"
                     name="Iquantity"
                     id="IinputQuantity"
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -119,6 +149,7 @@
                     class="form-control"
                     name="IunitPrice"
                     id="IinputUnitPrice"
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -139,8 +170,10 @@
                     class="form-control"
                     name="Iamount"
                     id="IinputAmount"
+                    required
                   />
                 </div>
+
                 <div class="form-group">
                   <label class="col-form-label" for="IinputPayment"
                     >付款方式</label
@@ -150,6 +183,7 @@
                     class="form-control"
                     name="Ipayment"
                     id="IinputPayment"
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -161,6 +195,7 @@
                     class="form-control"
                     name="Idelivery"
                     id="IinputDelivery"
+                    required
                   />
                 </div>
                 <div class="form-group">
@@ -187,6 +222,12 @@
           </div>
         </div>
       </div>
+      <input
+        class="searchBar align-middle"
+        id="myInput"
+        type="text"
+        placeholder="Search..."
+      />
     </div>
     <div class="card-body">
       <div class="table-responsive">
@@ -200,10 +241,12 @@
             <tr>
               <th>銷售單號</th>
               <th>客戶名稱</th>
-              <th>銷售日期</th>
+              <th>訂單日期</th>
+              <th>預計達交日期</th>
               <th>付款方式</th>
               <th>運送方式</th>
               <th>備註</th>
+              <th>狀態</th>
               <th>動作</th>
             </tr>
           </thead>
@@ -212,10 +255,12 @@
             <tr>
               <td>{{order.銷售單號}}</td>
               <td>{{order.客戶.客戶名稱}}</td>
-              <td>{{order.銷售日期}}</td>
+              <td>{{order.訂單日期|date:'Y-m-d'}}</td>
+              <td>{{order.預計達交日期|date:'Y-m-d'}}</td>
               <td>{{order.付款方式}}</td>
               <td>{{order.運送方式}}</td>
               <td>{{order.備註}}</td>
+              <td>{{order.狀態}}</td>
               <td>
                 <button
                   type="button"
@@ -236,7 +281,6 @@
               </td>
             </tr>
             <!-- detailDataModal -->
-            {% for sellProduct in sellProducts %}
             <div
               class="modal fade"
               id="detailDataModal{{order.銷售單號}}"
@@ -275,6 +319,7 @@
                         name="DorderCode"
                         id="DinputOrderCode"
                         value="{{order.銷售單號}}"
+                        readonly
                       />
                     </div>
                     <div class="form-group">
@@ -286,7 +331,8 @@
                         class="form-control"
                         name="DproductName"
                         id="DinputProdoctName"
-                        value="{{sellProduct.產品.產品編號}}"
+                        value="{{order.銷售明細.產品.產品編號}}"
+                        readonly
                       />
                     </div>
                     <div class="form-group">
@@ -298,7 +344,8 @@
                         class="form-control"
                         name="Dquantity"
                         id="DinputQuantity"
-                        value="{{sellProduct.數量}}"
+                        value="{{order.銷售明細.數量}}"
+                        readonly
                       />
                     </div>
                     <div class="form-group">
@@ -310,7 +357,8 @@
                         class="form-control"
                         name="DunitPrice"
                         id="DinputUnitPrice"
-                        value="{{sellProduct.單價}}"
+                        value="{{order.銷售明細.單價}}"
+                        readonly
                       />
                     </div>
                     <div class="form-group">
@@ -322,7 +370,8 @@
                         class="form-control"
                         name="Ddiscount"
                         id="DinputDiscount"
-                        value="{{sellProduct.折扣}}"
+                        value="{{order.銷售明細.折扣}}"
+                        readonly
                       />
                     </div>
                     <div class="form-group">
@@ -334,7 +383,8 @@
                         class="form-control"
                         name="Damount"
                         id="DinputAmount"
-                        value="{{sellProduct.金額}}"
+                        value="{{order.銷售明細.金額}}"
+                        readonly
                       />
                     </div>
                   </div>
@@ -387,17 +437,30 @@
                       </div>
                       <div class="form-group">
                         <label class="col-form-label" for="MinputSellDate"
-                          >銷售日期</label
+                          >訂單日期</label
                         >
                         <input
-                          type="text"
+                          type="date"
                           class="form-control"
                           name="MsellDate"
                           id="MinputSellDate"
-                          value="{{order.銷售日期}}"
+                          value="{{order.訂單日期|date:'Y-m-d'}}"
+                          required
                         />
                       </div>
-
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputDeliveryDate"
+                          >預計達交日期</label
+                        >
+                        <input
+                          type="date"
+                          class="form-control"
+                          name="MdeliveryDate"
+                          id="MinputDeliveryDate"
+                          value="{{order.預計達交日期|date:'Y-m-d'}}"
+                          required
+                        />
+                      </div>
                       <div class="form-group">
                         <label class="col-form-label" for="MinputCustomerName"
                           >客戶名稱</label
@@ -420,7 +483,8 @@
                           class="form-control"
                           name="MproductName"
                           id="MinputProdoctName"
-                          value="{{sellProduct.產品.產品編號}}"
+                          value="{{order.銷售明細.產品.產品編號}}"
+                          required
                         />
                       </div>
                       <div class="form-group">
@@ -432,7 +496,8 @@
                           class="form-control"
                           name="Mquantity"
                           id="MinputQuantity"
-                          value="{{sellProduct.數量}}"
+                          value="{{order.銷售明細.數量}}"
+                          required
                         />
                       </div>
                       <div class="form-group">
@@ -444,7 +509,8 @@
                           class="form-control"
                           name="MunitPrice"
                           id="MinputUnitPrice"
-                          value="{{sellProduct.單價}}"
+                          value="{{order.銷售明細.單價}}"
+                          required
                         />
                       </div>
                       <div class="form-group">
@@ -456,7 +522,7 @@
                           class="form-control"
                           name="Mdiscount"
                           id="MinputDiscount"
-                          value="{{sellProduct.折扣}}"
+                          value="{{order.銷售明細.折扣}}"
                         />
                       </div>
                       <div class="form-group">
@@ -468,7 +534,8 @@
                           class="form-control"
                           name="Mamount"
                           id="MinputAmount"
-                          value="{{sellProduct.金額}}"
+                          value="{{order.銷售明細.金額}}"
+                          required
                         />
                       </div>
                       <div class="form-group">
@@ -495,6 +562,37 @@
                           value="{{order.運送方式}}"
                         />
                       </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputStatus"
+                          >狀態</label
+                        >
+                        <input
+                          list="status"
+                          class="form-control"
+                          name="Mstatus"
+                          id="MinputStatus"
+                          value="{{order.狀態}}"
+                          required
+                        />
+                        <datalist id="status">
+                          <option value="進行中"></option>
+                          <option value="待核准"></option>
+                          <option value="已核准"></option>
+                          <option value="已結案"></option>
+                        </datalist>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-form-label" for="MinputRemark"
+                          >備註</label
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="Mremark"
+                          id="MinputRemark"
+                          value="{{order.備註}}"
+                        />
+                      </div>
                     </div>
                     <div class="modal-footer">
                       <button
@@ -512,7 +610,7 @@
                 </div>
               </div>
             </div>
-            {% endfor %} {% endfor %}
+            {% endfor %}
           </tbody>
         </table>
       </div>

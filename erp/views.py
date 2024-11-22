@@ -131,11 +131,62 @@ def modifySuppliers(request):
 
 def orders(request):
     try:
-        orders = 銷售主檔.objects.select_related('銷售明細','客戶')
-        sellProducts = 銷售明細.objects.select_related('產品')
+        orders = 銷售主檔.objects.select_related('銷售明細','客戶').order_by('銷售單號')
         return render(request, 'orders.html', locals())
     except:
         pass
+
+
+def insertOrders(request):
+    try:
+        # 銷售主檔
+        customer = 客戶.objects.get(客戶名稱 = request.POST['IcustomerName'])
+
+        order = 銷售主檔.objects.create(銷售單號 = request.POST['IorderCode'], 訂單日期 = request.POST['IsellDate'], 預計達交日期 = request.POST['IdeliveryDate'], 付款方式 = request.POST['Ipayment'] , 運送方式 = request.POST['Idelivery'] ,備註 = request.POST['Iremark'] , 客戶 = customer)
+        order.save()
+
+        # 銷售明細
+        product = 產品.objects.get(產品編號 = request.POST['IproductName'])
+
+        unit = 銷售明細.objects.create(銷售主檔 = order, 產品 = product, 數量 = request.POST['Iquantity'], 單價 = request.POST['IunitPrice'] , 折扣 = request.POST['Idiscount'] ,金額 = request.POST['Iamount'])
+        unit.save()
+
+        return redirect('/orders')
+    except:               
+        pass 
+
+def modifyOrders(request):
+    try:
+        # 客戶
+        customer = 客戶.objects.get(客戶名稱 = request.POST['McustomerName'])
+
+        # 主檔
+        order = 銷售主檔.objects.get(銷售單號 = request.POST['MorderCode'])
+        order.訂單日期 = request.POST['MsellDate']
+        order.預計達交日期 = request.POST['MdeliveryDate']
+        order.客戶 = customer
+        order.付款方式 = request.POST['Mpayment']
+        order.運送方式 = request.POST['Mdelivery']
+        order.狀態 = request.POST['Mstatus']  
+        order.備註 = request.POST['Mremark']   
+        order.save()
+
+        # 產品
+        product = 產品.objects.get(產品編號 = request.POST['MproductName'])
+
+        # 明細
+        orderSheet = 銷售明細.objects.get(銷售主檔 = order)
+        orderSheet.產品 = product
+        orderSheet.數量 = request.POST['Mquantity']
+        orderSheet.單價 = request.POST['MunitPrice']
+        orderSheet.折扣 = request.POST['Mdiscount']
+        orderSheet.金額 = request.POST['Mamount']
+        orderSheet.save()
+        
+        return redirect('/orders')
+
+    except:
+        pass 
 
 def customers(request):
     try:
@@ -220,36 +271,6 @@ def createDelivery(request):
         pass
 
 # 要修改    
-
-def insertOrders(request):
-    try:
-        unit = 客戶.objects.create(客戶編號 = request.POST['IcustomerCode'], 客戶名稱 = request.POST['IcustomerName'], 聯絡人 = request.POST['IcontactPerson'], 電話 = request.POST['Iphone'] , 地址 = request.POST['Iaddress'] , 統一編號 = request.POST['IunifiedNumber'])
-        
-        unit.save()
-        
-        customers = 客戶.objects.all().order_by('客戶編號')
-        return render(request, 'orders.html', locals())
-    except:               
-        pass 
-
-def modifyOrders(request):
-    try:
-        unit = 客戶.objects.get(統一編號 = request.POST['MunifiedNumber'])
-        unit.客戶編號 = request.POST['McustomerCode']
-        unit.客戶名稱 = request.POST['McustomerName']
-        unit.聯絡人 = request.POST['McontactPerson']
-        unit.電話 = request.POST['Mphone']
-        unit.地址 = request.POST['Maddress']      
-        unit.save()
-        
-        customers = 客戶.objects.all().order_by('客戶編號')
-        return render(request, 'orders.html', locals())
-    except:
-        pass 
-
-
-
-
 def inventoryReport(request):
     try:
         inventoryReport = 庫存.objects.select_related('產品')

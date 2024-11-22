@@ -65,10 +65,10 @@
             <tr>
               <td>{{order.銷售單號}}</td>
               <td>{{order.客戶.客戶名稱}}</td>
-              <td>{{order.銷售日期}}</td>
+              <td>{{order.訂單日期|date:'Y-m-d'}}</td>
               <td>{{order.銷售明細.產品.產品編號}}</td>
               <td>{{order.銷售明細.數量}}</td>
-              <td></td>
+              <td>{{order.預計達交日期|date:'Y-m-d'}}</td>
               <td>{{order.備註}}</td>
               <td>
                 <button
@@ -132,7 +132,22 @@
                               class="form-control"
                               name="sellDate"
                               id="inputSellDate"
-                              value="{{order.銷售日期|date:'Y-m-d'}}"
+                              value="{{order.訂單日期|date:'Y-m-d'}}"
+                              readonly
+                            />
+                          </div>
+                          <div class="form-group">
+                            <label
+                              class="col-form-label"
+                              for="inputDeliveryDate"
+                              >預計出庫日期</label
+                            >
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="deliveryDate"
+                              id="inputDeliveryDate"
+                              value="{{order.預計達交日期|date:'Y-m-d'}}"
                               readonly
                             />
                           </div>

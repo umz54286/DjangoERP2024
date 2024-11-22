@@ -81,6 +81,42 @@
                   />
                 </div>
                 <div class="form-group">
+                  <label class="col-form-label" for="IinputPurchaseDate"
+                    >採購日期</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="IpurchaseDate"
+                    id="IinputPurchaseDate"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputArriveDate"
+                    >預計到貨日期</label
+                  >
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="IarriveDate"
+                    id="IinputArriveDate"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="IinputSupplier"
+                    >供應商名稱</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="Isupplier"
+                    id="IinputSupplier"
+                    required
+                  />
+                </div>
+                <div class="form-group">
                   <label class="col-form-label" for="IinputPurchaseProduct"
                     >產品編號</label
                   >
@@ -127,30 +163,6 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label class="col-form-label" for="IinputPurchaseDate"
-                    >採購日期</label
-                  >
-                  <input
-                    type="date"
-                    class="form-control"
-                    name="IpurchaseDate"
-                    id="IinputPurchaseDate"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="col-form-label" for="IinputArriveDate"
-                    >預計到貨日期</label
-                  >
-                  <input
-                    type="date"
-                    class="form-control"
-                    name="IarriveDate"
-                    id="IinputArriveDate"
-                    required
-                  />
-                </div>
-                <div class="form-group">
                   <label class="col-form-label" for="IinputPayment"
                     >付款方式</label
                   >
@@ -173,18 +185,6 @@
                     class="form-control"
                     name="Inote"
                     id="IinputNote"
-                  />
-                </div>
-                <div class="form-group">
-                  <label class="col-form-label" for="IinputSupplier"
-                    >供應商名稱</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="Isupplier"
-                    id="IinputSupplier"
-                    required
                   />
                 </div>
               </div>
@@ -287,6 +287,21 @@
                     </button>
                   </div>
                   <div class="modal-body">
+                    <div class="form-group">
+                      <label
+                        class="col-form-label"
+                        for="DinputPurchaseOrderCode"
+                        >採購單號</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        name="DpurchaseOrderCode"
+                        id="DinputPurchaseOrderCode"
+                        value="{{purchaseOrder.採購單號}}"
+                        readonly
+                      />
+                    </div>
                     <div class="form-group">
                       <label class="col-form-label" for="DinputPurchaseProduct"
                         >產品編號</label
@@ -410,6 +425,19 @@
                         />
                       </div>
                       <div class="form-group">
+                        <label class="col-form-label" for="MinputArriveDate"
+                          >預計到貨日期</label
+                        >
+                        <input
+                          type="date"
+                          class="form-control"
+                          name="MarriveDate"
+                          id="MinputArriveDate"
+                          value="{{purchaseOrder.預計到貨日期|date:'Y-m-d'}}"
+                          required
+                        />
+                      </div>
+                      <div class="form-group">
                         <label class="col-form-label" for="MinputSupplier"
                           >供應商名稱</label
                         >
@@ -480,19 +508,6 @@
                         />
                       </div>
 
-                      <div class="form-group">
-                        <label class="col-form-label" for="MinputArriveDate"
-                          >預計到貨日期</label
-                        >
-                        <input
-                          type="date"
-                          class="form-control"
-                          name="MarriveDate"
-                          id="MinputArriveDate"
-                          value="{{purchaseOrder.預計到貨日期|date:'Y-m-d'}}"
-                          required
-                        />
-                      </div>
                       <div class="form-group">
                         <label class="col-form-label" for="MinputPayment"
                           >付款方式</label
