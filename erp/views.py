@@ -244,7 +244,8 @@ def createEntry(request):
         purchaseOrder.狀態 = '已入庫'
         purchaseOrder.save()
 
-        # 產品資料表需要更新庫存
+        product.庫存量 = product.庫存量 + int(request.POST['purchaseQuantity'])
+        product.save()
 
         return redirect('/entry')
     except:               
@@ -269,7 +270,8 @@ def createDelivery(request):
         order.狀態 = '已出庫'
         order.save()
 
-        # 產品資料表需要更新庫存
+        product.庫存量 = product.庫存量 - int(request.POST['sellQuantity'])
+        product.save()
 
         return redirect('/delivery')
     except:               
