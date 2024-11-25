@@ -2,6 +2,7 @@
 <title>ERP SYSTEM - 庫存管理</title>
 <style>
   .searchBar {
+    display: block;
     width: 300px;
     height: calc(1.5em + 0.75rem + 2px);
     padding: 0.375rem 0.75rem;
@@ -38,7 +39,7 @@
       <div class="table-responsive">
         <table
           class="table table-bordered"
-          id="inventoryDataTable"
+          id="dataTable"
           width="100%"
           cellspacing="0"
         >
@@ -47,24 +48,27 @@
               <th>產品編號</th>
               <th>產品名稱</th>
               <th>產品描述</th>
-              <th>異動數量</th>
-              <th>入庫日期</th>
-              <th>出庫日期</th>
-              <th>備註</th>
+              <th>類別</th>
+              <th>庫存數量</th>
             </tr>
           </thead>
           <tbody>
             {% for inventory in inventories %}
             <tr>
-              <td>{{inventory.產品.產品編號}}</td>
-              <td>{{inventory.產品.產品名稱}}</td>
-              <td>{{inventory.產品.產品描述}}</td>
-              <td>{{inventory.庫存數量}}</td>
-              <td>{{inventory.入庫日期}}</td>
-              <td>{{inventory.出庫日期}}</td>
-              <td>{{inventory.備註}}</td>
+              <td>{{inventory.產品編號}}</td>
+              <td>{{inventory.產品名稱}}</td>
+              <td>{{inventory.產品描述}}</td>
+              <td>{{inventory.類別}}</td>
+              <td>{{inventory.庫存量}}</td>
             </tr>
             {% endfor %}
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
       </div>

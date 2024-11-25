@@ -220,7 +220,7 @@ def modifyCustomers(request):
 
 def inventories(request):
     try:
-        inventories = 庫存.objects.select_related('產品')
+        inventories = 產品.objects.exclude(庫存量 = 0).order_by('產品編號')
         return render(request, 'inventories.html', locals())
     except:
         pass
