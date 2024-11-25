@@ -172,7 +172,9 @@
             data-parent="#accordionSidebar"
           >
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item" href="/inventoryReport">庫存報表</a>
+              <a class="collapse-item" href="/inventoryChangeReport"
+                >庫存異動明細</a
+              >
             </div>
           </div>
         </li>
@@ -265,7 +267,7 @@
       $("#sheetjsexport").click(function () {
         const table = document.getElementById("inventoryReportDataTable");
         const new_sheet = XLSX.utils.table_to_book(table);
-        XLSX.writeFile(new_sheet, "庫存報表.xlsx");
+        XLSX.writeFile(new_sheet, "庫存異動明細報表.xlsx");
       });
     </script>
   </body>

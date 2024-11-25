@@ -244,6 +244,8 @@ def createEntry(request):
         purchaseOrder.狀態 = '已入庫'
         purchaseOrder.save()
 
+        # 產品資料表需要更新庫存
+
         return redirect('/entry')
     except:               
         pass
@@ -266,20 +268,19 @@ def createDelivery(request):
         order = 銷售主檔.objects.get(銷售單號 = request.POST['orderCode'])
         order.狀態 = '已出庫'
         order.save()
+
+        # 產品資料表需要更新庫存
+
         return redirect('/delivery')
     except:               
         pass
 
-# 要修改    
-def inventoryReport(request):
+def inventoryChangeReport(request):
     try:
-        inventoryReport = 庫存.objects.select_related('產品')
-
-        # inventoryReport = 庫存.objects.all()
-        # unit = 客戶.objects.get(統一編號 = request.POST['MunifiedNumber'])
-
+        inventoryChanges = 庫存.objects.select_related('產品').order_by('序號')
         
-        return render(request, 'inventoryReport.html', locals())
+        return render(request, 'inventoryChangeReport.html', locals())
     except:
-        pass
+        pass  
+
     

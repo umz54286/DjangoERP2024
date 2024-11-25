@@ -1,5 +1,5 @@
 {% extends 'layout.html' %} {% block title%}
-<title>ERP SYSTEM - 庫存報表</title>
+<title>ERP SYSTEM - 庫存異動明細</title>
 <style>
   .searchBar {
     display: block;
@@ -29,7 +29,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
   <!-- Page Heading -->
-  <h1 class="h3 mb-2 text-gray-800">庫存報表</h1>
+  <h1 class="h3 mb-2 text-gray-800">庫存異動明細</h1>
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div
@@ -58,16 +58,26 @@
               <th>產品編號</th>
               <th>產品名稱</th>
               <th>產品描述</th>
-              <th>庫存數量</th>
+              <th>類別</th>
+              <th>庫存異動數量</th>
+              <th>入庫日期</th>
+              <th>出庫日期</th>
+              <th>備註</th>
             </tr>
           </thead>
           <tbody>
+            {% for inventoryChange in inventoryChanges %}
             <tr>
-              <td>P001</td>
-              <td>筆記型電腦</td>
-              <td>13吋,i5處理器</td>
-              <td>8</td>
+              <td>{{inventoryChange.產品.產品編號}}</td>
+              <td>{{inventoryChange.產品.產品名稱}}</td>
+              <td>{{inventoryChange.產品.產品描述}}</td>
+              <td>{{inventoryChange.產品.類別}}</td>
+              <td>{{inventoryChange.庫存數量}}</td>
+              <td>{{inventoryChange.入庫日期|date:'Y-m-d'}}</td>
+              <td>{{inventoryChange.出庫日期|date:'Y-m-d'}}</td>
+              <td>{{inventoryChange.備註}}</td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
