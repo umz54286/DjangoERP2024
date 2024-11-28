@@ -1,0 +1,162 @@
+{% extends 'layout.html' %} {% block title%}
+<title>ERP SYSTEM - 首頁</title>
+<style>
+  .borderStyle {
+    border: 1px solid #d1d3e2;
+    border-radius: 0.35rem;
+  }
+  .iconColor {
+    height: 20px;
+    width: 20px;
+    color: #7e7e7e;
+    padding-top: 1px;
+    padding-left: 5px;
+  }
+</style>
+{% endblock %} {% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="row justify-content-center mb-5">
+    <div class="card shadow col-11">
+      <div class="card-body py-4">
+        <div class="row justify-content-around mt-2 mb-2">
+          <div class="card col-2 px-0 text-center borderStyle">
+            <div class="card-header">本月銷貨(金額)</div>
+            <div class="card-body">
+              <p class="card-text">
+                <span>{{sellDiff}}</span>
+              </p>
+            </div>
+          </div>
+          <div class="card col-2 px-0 text-center borderStyle">
+            <div class="card-header">現有存貨(金額)</div>
+            <div class="card-body">
+              <p class="card-text">
+                <span>{{inventory}}</span>
+              </p>
+            </div>
+          </div>
+          <div class="card col-2 px-0 text-center borderStyle">
+            <div class="card-header">本月進貨(金額)</div>
+            <div class="card-body">
+              <p class="card-text">
+                <span>{{purchaseDiff}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-around m-3">
+    <div class="card shadow col-6 px-0">
+      <div class="card-header">前後3個月銷售狀況一覽表</div>
+      <div class="card-body">
+        <canvas class="m-5 borderStyle" id="myBarChart"></canvas>
+      </div>
+    </div>
+    <div class="card shadow col-4 px-0">
+      <div class="card-header">現有庫存佔比</div>
+      <div class="card-body">
+        <canvas class="m-5 borderStyle" id="myPieChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Heading -->
+</div>
+
+<!-- /.container-fluid -->
+{% endblock %} {% block js%}
+<script>
+  showBarChart();
+  showPieChart();
+
+  function showBarChart() {
+    var endpoint = "api/barChartData";
+    var defaultData = [];
+    var labels = [];
+    $.ajax({
+      method: "GET",
+      url: endpoint,
+      success: function (data) {
+        labels = data.labels;
+        defaultData = data.data;
+        setBarChart();
+      },
+      error: function (error_data) {
+        console.log("error");
+      },
+    });
+
+    function setBarChart() {
+      const ctx = document.getElementById("myBarChart");
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "銷貨金額",
+              data: defaultData,
+              backgroundColor: ["rgb(161, 192, 240)"],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+    }
+  }
+
+  function showPieChart() {
+    var endpoint = "api/pieChartData";
+    var defaultData = [];
+    var labels = [];
+    $.ajax({
+      method: "GET",
+      url: endpoint,
+      success: function (data) {
+        labels = data.labels;
+        defaultData = data.data;
+        setPieChart();
+      },
+      error: function (error_data) {
+        console.log("error");
+      },
+    });
+
+    function setPieChart() {
+      const ctx = document.getElementById("myPieChart");
+
+      new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "庫存數量",
+              data: defaultData,
+              backgroundColor: [
+                "rgb(230, 197, 151)",
+                "rgb(130, 164, 186)",
+                "rgb(220, 242, 201)",
+              ],
+              hoverOffset: 4,
+            },
+          ],
+        },
+      });
+    }
+  }
+</script>
+{% endblock %}

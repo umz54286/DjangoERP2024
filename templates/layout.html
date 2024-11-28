@@ -206,7 +206,7 @@
         <!-- End of Main Content -->
 
         <!-- Footer -->
-        <footer class="sticky-footer bg-white">
+        <footer class="sticky-footer bg-white mt-3">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
               <span>Copyright &copy; Yufang's ERP 2024</span>
@@ -249,26 +249,9 @@
       src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
     ></script>
 
-    <script src="{% static 'js/erp.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <script>
-      $("#myInput").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $("#inventoryDataTable tbody tr").filter(function () {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-        $("#inventoryReportDataTable tbody tr").filter(function () {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-        $("#dataTable tbody tr").filter(function () {
-          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
-      });
-      $("#sheetjsexport").click(function () {
-        const table = document.getElementById("inventoryReportDataTable");
-        const new_sheet = XLSX.utils.table_to_book(table);
-        XLSX.writeFile(new_sheet, "庫存異動明細報表.xlsx");
-      });
-    </script>
+    <script src="{% static 'js/erp.js' %}"></script>
+    {% block js %}{% endblock %}
   </body>
 </html>

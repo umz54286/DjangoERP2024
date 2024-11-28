@@ -20,13 +20,14 @@ from django.conf import settings
 from django.views.static import serve
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns # new
-from erp.views import dashboard, products,insertProducts, modifyProducts,purchaseOrders, insertPurchaseOrders, modifyPurchaseOrders, suppliers, insertSuppliers, modifySuppliers, orders, insertOrders, modifyOrders, customers, insertCustomers, modifyCustomers, inventories, entry, createEntry, delivery, createDelivery, inventoryChangeReport
+from erp.views import dashboard, get_barChart_data, get_pieChartData_data, products,insertProducts, modifyProducts,purchaseOrders, insertPurchaseOrders, modifyPurchaseOrders, suppliers, insertSuppliers, modifySuppliers, orders, insertOrders, modifyOrders, customers, insertCustomers, modifyCustomers, inventories, entry, createEntry, delivery, createDelivery, inventoryChangeReport
 
 
 urlpatterns = [
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root':settings.STATIC_ROOT}, name='staticfiles'),
-    path("", inventories),
-    # path("api/products/", include("erp.urls")),
+    path("", dashboard),
+    path("api/barChartData", get_barChart_data),
+    path("api/pieChartData", get_pieChartData_data),
     path("products", products),
     path("products/insert", insertProducts),
     path("products/modify", modifyProducts),

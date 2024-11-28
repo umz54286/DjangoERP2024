@@ -1,12 +1,49 @@
 from django.shortcuts import render, redirect
 from erp.models import 客戶, 供應商, 產品, 銷售主檔, 銷售明細, 採購主檔, 採購明細, 庫存
+from django.http import JsonResponse
 from datetime import date
+
 
 # Create your views here.
 def dashboard(request):
-    title = 'ERP SYSTEM - Dashboard'
-    content_title = 'dashboard'
-    return render(request, 'dashboard.html', locals())
+    try:
+        #         for p in Person.objects.raw("SELECT * FROM myapp_person"):
+        # ...         print(p)
+        lastSellAmount = 500
+        sellAmount = 700
+        sellDiff = sellAmount - lastSellAmount
+        if sellDiff > 0 : 
+            sellDiff = "+" + str(sellDiff)
+
+        inventory = 500
+
+        lastPurchaseAmount = 500
+        purchaseAmount = 400
+        purchaseDiff = purchaseAmount - lastPurchaseAmount
+        if purchaseDiff > 0 : 
+            purchaseDiff = "+" + str(purchaseDiff)
+
+        return render(request, 'dashboard.html', locals())
+    except:
+        pass
+
+def get_barChart_data(request, *args, **kwargs):
+    labels = ["8月", "9月", "10月", "11月", "12月" , "1月"]
+    data = [1, 2, 3, 4, 5, 6]
+    content = {
+        'data': data,
+        'labels': labels,
+    }
+    return JsonResponse(content)
+
+def get_pieChartData_data(request, *args, **kwargs):
+    labels = ["鍵盤", "筆記型電腦", "桌上型電腦" ]
+    data = [1200, 1000, 800]
+    content = {
+        'data': data,
+        'labels': labels,
+    }
+    return JsonResponse(content)
 
 
 def products(request):
