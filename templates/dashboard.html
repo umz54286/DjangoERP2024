@@ -15,6 +15,7 @@
 </style>
 {% endblock %} {% block content %}
 <!-- Begin Page Content -->
+{{error}}
 <div class="container-fluid">
   <!-- Page Heading -->
   <div class="row justify-content-center mb-5">
@@ -22,7 +23,7 @@
       <div class="card-body py-4">
         <div class="row justify-content-around mt-2 mb-2">
           <div class="card col-2 px-0 text-center borderStyle">
-            <div class="card-header">本月銷貨(金額)</div>
+            <div class="card-header">本月銷貨(金額)差異</div>
             <div class="card-body">
               <p class="card-text">
                 <span>{{sellDiff}}</span>
@@ -33,12 +34,12 @@
             <div class="card-header">現有存貨(金額)</div>
             <div class="card-body">
               <p class="card-text">
-                <span>{{inventory}}</span>
+                <span>{{ inventory }}</span>
               </p>
             </div>
           </div>
           <div class="card col-2 px-0 text-center borderStyle">
-            <div class="card-header">本月進貨(金額)</div>
+            <div class="card-header">本月進貨(金額)差異</div>
             <div class="card-body">
               <p class="card-text">
                 <span>{{purchaseDiff}}</span>
@@ -52,15 +53,15 @@
 
   <div class="row justify-content-around m-3">
     <div class="card shadow col-6 px-0">
-      <div class="card-header">前後3個月銷售狀況一覽表</div>
+      <div class="card-header">銷售狀況趨勢</div>
       <div class="card-body">
-        <canvas class="m-5 borderStyle" id="myBarChart"></canvas>
+        <canvas class="m-3 borderStyle" id="myBarChart"></canvas>
       </div>
     </div>
     <div class="card shadow col-4 px-0">
-      <div class="card-header">現有庫存佔比</div>
+      <div class="card-header">庫存類別分析</div>
       <div class="card-body">
-        <canvas class="m-5 borderStyle" id="myPieChart"></canvas>
+        <canvas class="m-3 borderStyle" id="myPieChart"></canvas>
       </div>
     </div>
   </div>
@@ -113,6 +114,15 @@
               beginAtZero: true,
             },
           },
+          layout: {
+            padding: 10,
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: "前後3個月銷售狀況一覽表",
+            },
+          },
         },
       });
     }
@@ -144,7 +154,7 @@
           labels: labels,
           datasets: [
             {
-              label: "庫存數量",
+              label: "庫存金額",
               data: defaultData,
               backgroundColor: [
                 "rgb(230, 197, 151)",
@@ -154,6 +164,17 @@
               hoverOffset: 4,
             },
           ],
+        },
+        options: {
+          layout: {
+            padding: 10,
+          },
+          plugins: {
+            title: {
+              display: true,
+              text: "現有庫存佔比",
+            },
+          },
         },
       });
     }

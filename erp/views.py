@@ -2,34 +2,75 @@ from django.shortcuts import render, redirect
 from erp.models import 客戶, 供應商, 產品, 銷售主檔, 銷售明細, 採購主檔, 採購明細, 庫存
 from django.http import JsonResponse
 from datetime import date
+import datetime
+import sys
+from django.db import connection
 
 
 # Create your views here.
+def get_sell_diff_amount():
+    with connection.cursor() as cursor:
+        cursor.execute("WITH sales_data AS (SELECT date_trunc('month', 預計達交日期) AS 銷售月份, SUM(金額) AS 總金額 FROM public.erp_銷售主檔 INNER JOIN public.erp_銷售明細 ON public.erp_銷售主檔.序號 = public.erp_銷售明細.銷售主檔_id WHERE public.erp_銷售主檔.狀態 != '待核准' GROUP BY 銷售月份)SELECT (SELECT 總金額 FROM sales_data WHERE 銷售月份 = date_trunc('month', CURRENT_DATE)) -    (SELECT 總金額 FROM sales_data WHERE 銷售月份 = date_trunc('month', CURRENT_DATE) - INTERVAL '1 month') AS 本月差異;")
+        row = cursor.fetchone()
+        if row:
+            return row[0]
+
+def get_inventory_amount():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT SUM(進貨成本 * 庫存量) AS 存貨成本 FROM public.erp_產品")
+        row = cursor.fetchone()
+        if row:
+            return row[0]
+
+def get_purchase_diff_amount():
+    with connection.cursor() as cursor:
+        cursor.execute("WITH purchase_data AS (SELECT date_trunc('month', 預計到貨日期) AS 採購月份, SUM(金額) AS 總金額 FROM public.erp_採購主檔 INNER JOIN public.erp_採購明細 ON public.erp_採購主檔.序號 = public.erp_採購明細.採購主檔_id WHERE public.erp_採購主檔.狀態 != '待核准' GROUP BY 採購月份) SELECT (SELECT 總金額 FROM purchase_data WHERE 採購月份 = date_trunc('month', CURRENT_DATE)) - (SELECT 總金額 FROM purchase_data WHERE 採購月份 = date_trunc('month', CURRENT_DATE) - INTERVAL '1 month') AS 本月差異;")
+        row = cursor.fetchone()
+        if row:
+            return row[0]
+
+
 def dashboard(request):
     try:
-        #         for p in Person.objects.raw("SELECT * FROM myapp_person"):
-        # ...         print(p)
-        lastSellAmount = 500
-        sellAmount = 700
-        sellDiff = sellAmount - lastSellAmount
+        sellDiff = get_sell_diff_amount()
         if sellDiff > 0 : 
             sellDiff = "+" + str(sellDiff)
 
-        inventory = 500
+        inventory = get_inventory_amount()
 
-        lastPurchaseAmount = 500
-        purchaseAmount = 400
-        purchaseDiff = purchaseAmount - lastPurchaseAmount
+        purchaseDiff = get_purchase_diff_amount()
         if purchaseDiff > 0 : 
             purchaseDiff = "+" + str(purchaseDiff)
 
         return render(request, 'dashboard.html', locals())
-    except:
-        pass
+    except Exception as error:
+        return render(request, 'dashboard.html', locals())
+
 
 def get_barChart_data(request, *args, **kwargs):
-    labels = ["8月", "9月", "10月", "11月", "12月" , "1月"]
-    data = [1, 2, 3, 4, 5, 6]
+    toNow = datetime.datetime.now()
+    toNowMonth = toNow.month
+    labels = [toNowMonth - 3, toNowMonth - 2, toNowMonth - 1, toNowMonth , toNowMonth + 1  , toNowMonth + 2]
+    data = []
+
+    for label in labels :
+        if (label < 1) :
+            # 取得index，刪除原本的，指定新增新的
+            i = labels.index(label)
+            labels.remove(label)
+            labels.insert(i, label + 12)
+        if (label > 12) :
+            i = labels.index(label)
+            labels.remove(label)
+            labels.insert(i, label - 12)
+
+    with connection.cursor() as cursor:
+            cursor.execute("SELECT to_char(date_trunc('month', 預計達交日期), 'YYYY-MM') AS 月份, SUM(金額) AS 總金額 FROM public.erp_銷售主檔 INNER JOIN public.erp_銷售明細 ON public.erp_銷售主檔.序號 = public.erp_銷售明細.銷售主檔_id WHERE public.erp_銷售主檔.狀態 != '待核准' AND public.erp_銷售主檔.預計達交日期 > date_trunc('month', CURRENT_DATE) - INTERVAL '3 month' GROUP BY 月份 ORDER BY 月份;")
+            rows = cursor.fetchall()
+
+            for r in rows:
+                data.append(r[1])
+
     content = {
         'data': data,
         'labels': labels,
@@ -37,13 +78,25 @@ def get_barChart_data(request, *args, **kwargs):
     return JsonResponse(content)
 
 def get_pieChartData_data(request, *args, **kwargs):
-    labels = ["鍵盤", "筆記型電腦", "桌上型電腦" ]
-    data = [1200, 1000, 800]
-    content = {
-        'data': data,
-        'labels': labels,
-    }
-    return JsonResponse(content)
+    try:
+        labels = []
+        data = []
+
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 類別, SUM(進貨成本 * 庫存量) AS 存貨成本 FROM public.erp_產品 GROUP BY 類別 ORDER BY 存貨成本 DESC")
+            rows = cursor.fetchall()
+
+            for r in rows:
+                labels.append(r[0])
+                data.append(r[1])
+
+        content = {
+            'data': data,
+            'labels': labels,
+        }
+        return JsonResponse(content)
+    except Exception as error:
+        return render(request, 'dashboard.html', locals())
 
 
 def products(request):

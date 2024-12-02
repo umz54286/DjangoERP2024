@@ -80,3 +80,5 @@ class 庫存(models.Model):
     出庫日期 = models.DateField(null = True)
     備註 = models.TextField(default="")
     產品 = models.ForeignKey(產品, on_delete=models.CASCADE)
+
+
